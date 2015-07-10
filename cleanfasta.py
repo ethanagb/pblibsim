@@ -1,4 +1,3 @@
-
 #Pull in list of base file names. Could implement as a flag at some point.
 with open('/Users/Ethan/Desktop/CSHL/NickBioinformatics/namelist','r') as infile:
     lines = infile.readlines()
@@ -17,7 +16,9 @@ for chrom in names:
     outfile.close()  
     
     #Remove any newline chars, remove undefined nts, make all nts uppercase for processing. 
-    with open('/Users/Ethan/Desktop/CSHL/NickBioinformatics/' + str(chrom) + '.noheader.fa','r') as infile, open('/Users/Ethan/Desktop/CSHL/NickBioinformatics/' + str(chrom) + '.clean.fa','w+') as outfile:
+    with open('/Users/Ethan/Desktop/CSHL/NickBioinformatics/' + str(chrom) + '.noheader.fa','r') as infile, \
+    open('/Users/Ethan/Desktop/CSHL/NickBioinformatics/' + str(chrom) + '.clean.fa','w+') as outfile, \
+    open('/Users/Ethan/Desktop/CSHL/NickBioinformatics/chrdist.td','w+') as outfile2 :
         lines = infile.readlines()
         x = map(str.strip,lines)
         seq = ''
@@ -27,5 +28,7 @@ for chrom in names:
             w = z.replace('N','')
             seq += w
         outfile.write(seq)
+        outfile2.write(str(chrom) + '\t' + str(len(seq)))
     infile.close()
     outfile.close()
+    outfile2.close()

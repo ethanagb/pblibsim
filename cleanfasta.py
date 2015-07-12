@@ -49,8 +49,34 @@ d = dict(zip(names,lengths))
 total=0 
 for n in lengths:
     total += n
+keys = []
+probs = []
 with open('chrdists.frac.td','w+') as outfile:
     for key in d:
+        keys.append(key)
         frac = float(d[key])/total
+        probs.append(frac)
         outfile.write(str(key) + '\t' + str(frac) + '\n')
 
+from numpy import random
+#e = dict(zip(keys,probs))
+counter = 0
+while counter < 1000:
+    selected_chrom = random.choice(keys,p=probs)
+    print selected_chrom
+    
+# calculate mean reads required to achieve coverage (will eventually be specified parameter). Read lengths will eventually need to be modified to fit distribution.
+required_reads = []
+keys = []
+desired_cov = 8
+mean = 4076
+std = 3076
+sigma = (log(1+(float(mean)/(float(std))**2)))**0.5
+mu = log(mean)-0.5*sigma**2
+read_length = random.lognormal(mu,sigma)
+for key in d:
+    req_reads = (desired_cov*d[key])/mean
+    required_reads.append(req_reads)
+    keys.append(key)
+    #print read_length, req_reads
+req_read_dict = dict(zip(keys,required_reads))

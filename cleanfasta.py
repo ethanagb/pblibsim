@@ -96,7 +96,7 @@ sim_reads_dict = {}
 for key in read_counts:
     seq = ""
     simreads = []
-    with open(str(key) + 'clean.fa', 'r') as infile:
+    with open(str(key) + '.clean.fa', 'r') as infile:
         for x in infile:
             seq += str(x)
     infile.close()
@@ -104,8 +104,8 @@ for key in read_counts:
         for length in read_counts[key]:
             buf = length/2
             x = random.randint(buf,d[key]-buf)
-            low = x-buf
-            hi = x+buf
+            low = int(x-buf)
+            hi = int(x+buf)
             bedout.write(str(low) + '\t' + str(hi) + '\n')
             simread = seq[low:hi+1]
             simreads.append(simread)
@@ -117,7 +117,7 @@ read_counts = None
 #write outfiles of simulatied reads.
 for key in sim_reads_dict:
     with open(str(key)+'_simreads.fa','w+') as fastaout:
-        for i in xrange(0,len(sim_reads_dict[key])+1):
+        for i in xrange(0,len(sim_reads_dict[key])):
             fastaout.write('>' + str(key)+'_'+str(i) + '\n' + str(sim_reads_dict[key][i]) + '\n')
     fastaout.close()
 sim_reads_dict = None
@@ -148,7 +148,8 @@ with open('terminal_dimer_dists.td','w+') as finalout:
                     n.append(l)
             for i in xrange(0,len(n)-1):
                 x = str(n[i])
-                termdimer = x[-2:]
+                y=x.strip()
+                termdimer = y[-2:]
                 if termdimer ==  'AA' :
                     AA += 1
                 elif termdimer ==  'AT':
@@ -183,5 +184,5 @@ with open('terminal_dimer_dists.td','w+') as finalout:
                     GG += 1            
         fastain.close()
         total = AA + AT + AC + AG + TA +TT +TC+TG+GA+GT+GG+GC+CA+CT+CG+CC 
-        outfile.write(str(key) + '\t' + str(AA/total) + '\t'+ str(AT/total)+ '\t'+ str(AC/total)+ '\t'+ str(AG/total) + '\t'+ str(TA/total) + '\t'+ str(TT/total) + '\t'+ str(TC/total) + '\t' + str(TG/total) + '\t'+str(GA/total) + '\t'+ str(GT/total) + '\t'+ str(GG/total) + '\t'+ str(GC/total)+ '\t'+ str(CA/total) + '\t'+ str(CT/total) + '\t'+ str(CG/total) + '\t'+ str(CC/total) + '\t'+ str(total) + '\n')
-outfile.close()
+        finalout.write(str(key) + '\t' + str(AA/total) + '\t'+ str(AT/total)+ '\t'+ str(AC/total)+ '\t'+ str(AG/total) + '\t'+ str(TA/total) + '\t'+ str(TT/total) + '\t'+ str(TC/total) + '\t' + str(TG/total) + '\t'+str(GA/total) + '\t'+ str(GT/total) + '\t'+ str(GG/total) + '\t'+ str(GC/total)+ '\t'+ str(CA/total) + '\t'+ str(CT/total) + '\t'+ str(CG/total) + '\t'+ str(CC/total) + '\t'+ str(total) + '\n')
+finalout.close()

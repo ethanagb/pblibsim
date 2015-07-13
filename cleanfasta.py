@@ -123,6 +123,7 @@ for key in sim_reads_dict:
 sim_reads_dict = None
 
 with open('terminal_dimer_dists.td','w+') as finalout:
+    finalout.write('Chr_Name' + '\t' + 'AA' + '\t'+ 'AT'+ '\t'+ 'AC'+ '\t'+ 'AG' + '\t'+ 'TA'+ '\t'+ 'TT' + '\t'+ 'TC' + '\t' + 'TG' + '\t'+'GA' + '\t'+ 'GT' + '\t'+ 'GG' + '\t'+ 'GC'+ '\t'+ 'CA' + '\t'+ 'CT' + '\t'+ 'CG' + '\t'+ 'CC' + '\t'+ 'Total_dimers' + '\n')
     for key in d:
         n=[]
         AA = 0

@@ -1,5 +1,5 @@
 from __future__ import division
-
+import numpy as np
 #Pull in list of base file names. Could implement as a flag at some point.
 with open('namelist','r') as infile:
     lines = infile.readlines()
@@ -58,12 +58,12 @@ with open('chrdists.frac.td','w+') as outfile:
         probs.append(frac)
         outfile.write(str(key) + '\t' + str(frac) + '\n')
 
-from numpy import random
+"""from numpy import random
 #e = dict(zip(keys,probs))
 counter = 0
 while counter < 1000:
     selected_chrom = random.choice(keys,p=probs)
-    print selected_chrom
+    print selected_chrom"""
     
 # calculate mean reads required to achieve coverage (will eventually be specified parameter). Read lengths will eventually need to be modified to fit distribution.
 required_reads = []
@@ -71,9 +71,9 @@ keys = []
 desired_cov = 8
 mean = 4076
 std = 3076
-sigma = (log(1+(float(mean)/(float(std))**2)))**0.5
-mu = log(mean)-0.5*sigma**2
-read_length = random.lognormal(mu,sigma)
+sigma = (np.log(1+(float(mean)/(float(std))**2)))**0.5
+mu = np.log(mean)-0.5*sigma**2
+read_length = np.random.lognormal(mu,sigma)
 for key in d:
     req_reads = (desired_cov*d[key])/mean
     required_reads.append(req_reads)
@@ -87,7 +87,7 @@ for key in req_read_dict:
     n=[]
     counter = 0
     while counter < req_read_dict[key]:
-        n.append(int(round(random.lognormal(mu,sigma))))
+        n.append(int(round(np.random.lognormal(mu,sigma))))
         counter += 1
     read_counts[key] = n 
 
@@ -103,7 +103,7 @@ for key in read_counts:
     with open(str(key) + '_simreads.bed','w+') as bedout:
         for length in read_counts[key]:
             buf = length/2
-            x = random.randint(buf,d[key]-buf)
+            x = np.random.randint(buf,d[key]-buf)
             low = int(x-buf)
             hi = int(x+buf)
             bedout.write(str(low) + '\t' + str(hi) + '\n')

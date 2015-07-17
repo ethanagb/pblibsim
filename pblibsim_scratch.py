@@ -1,6 +1,10 @@
 from __future__ import division
+import argparse
 import numpy as np
 #Pull in list of base file names. Could implement as a flag at some point.
+
+parser = argparse.ArgumentParser(description='Run bootstrapped simulation of terminal dimers.')
+parser.add_argument(
 with open('namelist','r') as infile:
     lines = infile.readlines()
     names =[str(e.strip()) for e in lines]

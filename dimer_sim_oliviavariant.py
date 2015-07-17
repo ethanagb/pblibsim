@@ -75,7 +75,12 @@ counter = 0
 while counter < req_reads:
       selected_chrom = None
       selected_chrom = np.random.choice(keys,p=probs) 
-      with open
+      with open(str(selected_chrom) + '.clean.fa', 'r') as infile:
+        for x in infile:
+            seq += str(x)
+      infile.close()
+      
+    
 for chrom in names:
     #print(str(chrom))
     r = 0

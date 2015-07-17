@@ -71,16 +71,30 @@ sigma = (np.log(1+(float(mean)/(float(std))**2)))**0.5
 mu = np.log(mean)-0.5*sigma**2
 req_reads = (desired_cov*total)/mean
 
-counter = 0 
-while counter < req_reads:
-      selected_chrom = None
-      selected_chrom = np.random.choice(keys,p=probs) 
-      with open(str(selected_chrom) + '.clean.fa', 'r') as infile:
+read_counter = 0 
+
+simreads=[]
+while read_counter < req_reads:
+    bedout = open('simulation_bed.bed','a+')
+    selected_chrom = None
+    selected_chrom = np.random.choice(keys,p=probs) 
+    seq = ""
+    with open(str(selected_chrom) + '.clean.fa', 'r') as infile:
         for x in infile:
             seq += str(x)
-      infile.close()
-      
-    
+    infile.close()
+    read_length = int(round(np.random.lognormal(mu,sigma)))
+    buf = read_length/2
+    x = np.random.randint(buf,total-buf)
+    low = int(x-buf)
+    hi = int(x+buf)
+    bedout.write(str(selected_chrom) +'\t' +str(low) + '\t' + str(hi) + '\n')
+    bedout.close()
+    simread = seq[low:hi+1]
+    seq=None
+    simreads.append(simread)
+    read_counter =+1
+
 for chrom in names:
     #print(str(chrom))
     r = 0

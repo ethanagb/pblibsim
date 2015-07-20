@@ -73,6 +73,9 @@ chr22_thresh=d['chr1'] + d['chr2']+ d['chr3']+ d['chr4']+ d['chr5']+ d['chr6']+ 
 chrX_thresh=d['chr1'] + d['chr2']+ d['chr3']+ d['chr4']+ d['chr5']+ d['chr6']+ d['chr7']+ d['chr8']+ d['chr9']+ d['chr10']+ d['chr11']+ d['chr12']+ d['chr13']+ d['chr14']+ d['chr15']+ d['chr16']+ d['chr17']+ d['chr18']+ d['chr19']+ d['chr20']+ d['chr21']+ d['chr22']+ d['chrX']
 chrY_thresh=total
 
+correction_dict = {'chr1':0,'chr2':chr1_thresh,'chr3':chr2_thresh,'chr4':chr3_thresh,'chr5':chr4_thresh,'chr6':chr5_thresh, 'chr7':chr6_thresh, 'chr8':chr7_thresh, 'chr9':chr8_thresh,'chr10':chr9_thresh,'chr11':chr10_thresh,'chr12':chr11_thresh,'chr13':chr12_thresh, 'chr14':chr13_thresh, \
+'chr15':chr14_thresh,'chr16':chr15_thresh,'chr17':chr16_thresh,'chr18':chr17_thresh,'chr19':chr18_thresh, 'chr20':chr19_thresh,'chr21':chr20_thresh,'chr21':chr20_thresh,\
+'chr22':chr21_thresh,'chrX':chr22_thresh, 'chrY':chrX_thresh}  
 #Calculate reads required for certain coverage.
 mean = 10000
 std = 2050
@@ -155,7 +158,7 @@ for length in readlengths:
         selected_chrom = 'chrY'
     else:
         selected_chrom = 'chr?'
-    outfile.write(str(selected_chrom) + '\t' + str(start_pos) + '\t' + str(end_pos) + '\t' + 'simulated_read_' + str(name_counter) + '\n')
+    outfile.write(str(selected_chrom) + '\t' + str(start_pos-correction_dict[str(selected_chrom)]) + '\t' + str(end_pos-correction_dict[str(selected_chrom)]) + '\t' + 'simulated_read_' + str(name_counter) + '\n')
     print('Positions recorded for read ' + str(name_counter) + '. ' + str(len(readlengths)-name_counter -1) + ' reads remain.')
     name_counter+=1
     x=None

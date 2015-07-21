@@ -1,3 +1,4 @@
+import gzip
 import numpy as np
 
 """with open('namelist','r') as infile:
@@ -93,8 +94,8 @@ while trial_counter < trials:
     readlengths=np.random.lognormal(mu,sigma,req_reads)
     read_pos=[]
     name_counter = 0
-    print('########################################' + '\n' + 'THIS IS TRIAL ' + str(trial_counter) + ' of ' + str(trials) +'.\n##################################')
-    print(str(req_reads)+' are required for ' + str(desired_cov) +'x coverage. ' + str(len(readlengths)) + ' lengths were generated.')
+    #print('########################################' + '\n' + 'THIS IS TRIAL ' + str(trial_counter) + ' of ' + str(trials) +'.\n##################################')
+    #print(str(req_reads)+' are required for ' + str(desired_cov) +'x coverage. ' + str(len(readlengths)) + ' lengths were generated.')
     
     outfile = open('simulated_read_positions_trial_'+str(trial_counter) +'.bed','w+')
     for length in readlengths:
@@ -164,7 +165,7 @@ while trial_counter < trials:
         else:
             selected_chrom = 'chr?'
         outfile.write(str(selected_chrom) + '\t' + str(start_pos-correction_dict[str(selected_chrom)]) + '\t' + str(end_pos-correction_dict[str(selected_chrom)]) + '\t' + 'trial_'+str(trial_counter) +'_sim_read_' + str(name_counter) + '\n')
-        print('Positions recorded for read ' + str(name_counter) + '. ' + str(len(readlengths)-name_counter -1) + ' reads remain.')
+        #print('Positions recorded for read ' + str(name_counter) + '. ' + str(len(readlengths)-name_counter -1) + ' reads remain.')
         name_counter+=1
         x=None
         y=None
@@ -173,5 +174,5 @@ while trial_counter < trials:
         end_pos=None
     outfile.close()
     trial_counter+=1
-    print('Done')
-print('El fin.')
+    #print('Done')
+#print('El fin.')

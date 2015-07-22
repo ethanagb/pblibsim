@@ -35,7 +35,7 @@ infile.close()"""
         outfile.close()
 outfile2.close()"""
 
-with open('chrdist.td','r') as infile:
+with open('/Users/Ethan/Desktop/CSHL/NickBioinformatics/chrdist.td','r') as infile:
     lengths = []
     names = []
     for x in infile:
@@ -156,7 +156,7 @@ while trial_counter < trials:
             selected_chrom = 'chr20'
         elif chr20_thresh < start_pos <= chr21_thresh:
             selected_chrom = 'chr21'
-        elif chr21_thresh < start_pos <= chr21_thresh:
+        elif chr21_thresh < start_pos <= chr22_thresh:
             selected_chrom = 'chr22'
         elif chr22_thresh < start_pos <= chrX_thresh:
             selected_chrom = 'chrX'
@@ -164,7 +164,7 @@ while trial_counter < trials:
             selected_chrom = 'chrY'
         else:
             selected_chrom = 'chr?'
-        outfile.write(str(selected_chrom) + '\t' + str(end_pos-correction_dict[str(selected_chrom)]-1) + '\t' + str(end_pos-correction_dict[str(selected_chrom)]) + '\t' + 'trial_'+str(trial_counter) +'_sim_read_' + str(name_counter) + '\n')
+        outfile.write(str(selected_chrom) + '\t' + str(end_pos-correction_dict[str(selected_chrom)]-2) + '\t' + str(end_pos-correction_dict[str(selected_chrom)]) + '\t' + 'trial_'+str(trial_counter) +'_sim_read_' + str(name_counter) + '\n')
         #print('Positions recorded for read ' + str(name_counter) + '. ' + str(len(readlengths)-name_counter -1) + ' reads remain.')
         name_counter+=1
         x=None
@@ -174,5 +174,3 @@ while trial_counter < trials:
         end_pos=None
     outfile.close()
     trial_counter+=1
-    #print('Done')
-#print('El fin.')

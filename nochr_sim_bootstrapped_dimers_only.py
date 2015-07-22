@@ -97,7 +97,7 @@ while trial_counter < trials:
     #print('########################################' + '\n' + 'THIS IS TRIAL ' + str(trial_counter) + ' of ' + str(trials) +'.\n##################################')
     #print(str(req_reads)+' are required for ' + str(desired_cov) +'x coverage. ' + str(len(readlengths)) + ' lengths were generated.')
     
-    outfile = gzip.open('simulated_read_positions_trial_'+str(trial_counter) +'.bed','wb')
+    outfile = gzip.open('sim_dimer_positions_'+str(trial_counter) +'.bed.gz','wb')
     for length in readlengths:
         x = int(round(length))
         buf = x/2
@@ -164,7 +164,7 @@ while trial_counter < trials:
             selected_chrom = 'chrY'
         else:
             selected_chrom = 'chr?'
-        outfile.write(str(selected_chrom) + '\t' + str(start_pos-correction_dict[str(selected_chrom)]) + '\t' + str(end_pos-correction_dict[str(selected_chrom)]) + '\t' + 'trial_'+str(trial_counter) +'_sim_read_' + str(name_counter) + '\n')
+        outfile.write(str(selected_chrom) + '\t' + str(end_pos-correction_dict[str(selected_chrom)]-1) + '\t' + str(end_pos-correction_dict[str(selected_chrom)]) + '\t' + 'trial_'+str(trial_counter) +'_sim_read_' + str(name_counter) + '\n')
         #print('Positions recorded for read ' + str(name_counter) + '. ' + str(len(readlengths)-name_counter -1) + ' reads remain.')
         name_counter+=1
         x=None

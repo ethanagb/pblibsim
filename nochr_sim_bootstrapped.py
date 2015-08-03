@@ -1,12 +1,12 @@
 import gzip
 import numpy as np
 
-"""with open('namelist','r') as infile:
+with open('namelist','r') as infile:
     lines = infile.readlines()
     names =[str(e.strip()) for e in lines]
-infile.close()"""
+infile.close()
 
-"""with open('chrdist.td','w+') as outfile2:
+with open('chrdist.td','w+') as outfile2:
     for chrom in names:
         
         #Strip header lines from fasta for processing
@@ -33,7 +33,7 @@ infile.close()"""
             outfile2.write(str(chrom) + '\t' + str(len(seq)) + '\n')
         infile.close()
         outfile.close()
-outfile2.close()"""
+outfile2.close()
 
 with open('chrdist.td','r') as infile:
     lengths = []
@@ -156,7 +156,7 @@ while trial_counter < trials:
             selected_chrom = 'chr20'
         elif chr20_thresh < start_pos <= chr21_thresh:
             selected_chrom = 'chr21'
-        elif chr21_thresh < start_pos <= chr21_thresh:
+        elif chr21_thresh < start_pos <= chr22_thresh:
             selected_chrom = 'chr22'
         elif chr22_thresh < start_pos <= chrX_thresh:
             selected_chrom = 'chrX'

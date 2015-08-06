@@ -83,7 +83,7 @@ while trial_counter < trials:
     #print('########################################' + '\n' + 'THIS IS TRIAL ' + str(trial_counter) + ' of ' + str(trials) +'.\n##################################')
     #print(str(req_reads)+' are required for ' + str(desired_cov) +'x coverage. ' + str(len(readlengths)) + ' lengths were generated.')
     
-    outfile = gzip.open('simulated_read_positions_trial_'+str(trial_counter) +'.bed','wb')
+    outfile = gzip.open('simulated_read_positions_trial_'+str(trial_counter) +'.bed.gz','wb')
     for length in readlengths:
         x = int(round(length))
         buf = x/2

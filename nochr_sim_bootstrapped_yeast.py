@@ -97,7 +97,7 @@ while trial_counter < trials:
             y = np.random.randint(0,total)
             if buf <= y <= chr1_thresh-buf or chr1_thresh + buf <= y <= chr2_thresh-buf or chr2_thresh + buf <= y <= chr3_thresh-buf or chr3_thresh + buf <= y <= chr4_thresh-buf or\
             chr4_thresh + buf <= y <= chr5_thresh-buf or chr5_thresh + buf <= y <= chr6_thresh-buf or chr6_thresh + buf <= y <= chr7_thresh-buf or chr7_thresh + buf <= y <= chr8_thresh-buf or\
-            chr8_thresh + buf <= y <= chr9_thresh-buf or chr10_thresh + buf <= y <= chr11_thresh-buf or chr11_thresh + buf <= y <= chr12_thresh-buf or\
+            chr8_thresh + buf <= y <= chr9_thresh-buf or chr9_thresh + buf <= y <= chr10_thresh-buf or chr10_thresh + buf <= y <= chr11_thresh-buf or chr11_thresh + buf <= y <= chr12_thresh-buf or\
             chr12_thresh + buf <= y <= chr13_thresh-buf or chr13_thresh + buf <= y <= chr14_thresh-buf or chr14_thresh + buf <= y <= chr15_thresh-buf or\
             chr15_thresh + buf <= y <= chr16_thresh-buf:
                 break

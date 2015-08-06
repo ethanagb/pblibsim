@@ -1,0 +1,98 @@
+import gzip
+import numpy as np
+
+with open('namelist','r') as infile:
+    lines = infile.readlines()
+    names =[str(e.strip()) for e in lines]
+infile.close()
+
+with open('chrdist.td','w+') as outfile2:
+    for chrom in names:
+        
+        #Strip header lines from fasta for processing
+        with open(str(chrom) + '.fa','r') as infile, open(str(chrom) + '.noheader.fa','w+') as outfile:
+            for i, line in enumerate(infile):
+                if i >= 0:
+                    if not line.startswith('>'):
+                        outfile.write(line)
+        infile.close()
+        outfile.close()  
+        
+        #Remove any newline chars, remove undefined nts, make all nts uppercase for processing. 
+        with open(str(chrom) + '.noheader.fa','r') as infile, \
+        open(str(chrom) + '.clean.fa','w+') as outfile:
+            lines = infile.readlines()
+            x = map(str.strip,lines)
+            seq = ''
+            for line in x:
+                y = str(line)
+                z = y.upper()
+                w = z.replace('N','')
+                seq += w
+            outfile.write(seq)
+            outfile2.write(str(chrom) + '\t' + str(len(seq)) + '\n')
+        infile.close()
+        outfile.close()
+outfile2.close()
+
+with open('chrdist.td','r') as infile:
+    lengths = []
+    names = []
+    for x in infile:
+        length = x.split('\t')[1]
+        name = x.split('\t')[0]
+        lengths.append(int(length))
+        names.append(str(name))
+infile.close()
+d = dict(zip(names,lengths))
+total=0 
+for n in lengths:
+    total += n
+
+chr1_thresh= d['chr1']
+
+correction_dict = {'chr1':0}  
+
+#Calculate reads required for certain coverage.
+mean = 10000
+std = 2050
+desired_cov = 8
+sigma = (np.log(1+(float(mean)/(float(std))**2)))**0.5
+mu = np.log(mean)-0.5*sigma**2
+req_reads = (desired_cov*total)/mean
+
+trial_counter=0
+trials = 1000
+while trial_counter < trials:
+    read_length_counter = 0
+    read_pos_counter = 0
+    readlengths = None
+    readlengths=np.random.lognormal(mu,sigma,req_reads)
+    read_pos=[]
+    name_counter = 0
+    #print('########################################' + '\n' + 'THIS IS TRIAL ' + str(trial_counter) + ' of ' + str(trials) +'.\n##################################')
+    #print(str(req_reads)+' are required for ' + str(desired_cov) +'x coverage. ' + str(len(readlengths)) + ' lengths were generated.')
+    
+    outfile = gzip.open('simulated_read_positions_trial_'+str(trial_counter) +'.bed','wb')
+    for length in readlengths:
+        x = int(round(length))
+        buf = x/2
+        while True:
+            y = np.random.randint(0,total)
+            if buf <= y <= chr1_thresh-buf:
+                break
+        start_pos = y-buf
+        end_pos = y+buf
+        
+        outfile.write('chr1' + '\t' + str(start_pos-correction_dict[str(selected_chrom)]) + '\t' + str(end_pos-correction_dict[str(selected_chrom)]) + '\t' + 'trial_'+str(trial_counter) +'_sim_read_' + str(name_counter) + '\n')
+        #print('Positions recorded for read ' + str(name_counter) + '. ' + str(len(readlengths)-name_counter -1) + ' reads remain.')
+        name_counter+=1
+        x=None
+        y=None
+        selected_chrom=None
+        start_pos=None
+        end_pos=None
+    outfile.close()
+    trial_counter+=1
+    #print('Done')
+#print('El fin.')

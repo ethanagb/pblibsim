@@ -116,18 +116,6 @@ while trial_counter < trials:
             selected_chrom = 'chr9'
         elif chr9_thresh < start_pos <= chr10_thresh:
             selected_chrom = 'chr10'
-        elif chr10_thresh < start_pos <= chr11_thresh:
-            selected_chrom = 'chr11'
-        elif chr11_thresh < start_pos <= chr12_thresh:
-            selected_chrom = 'chr12'
-        elif chr12_thresh < start_pos <= chr13_thresh:
-            selected_chrom = 'chr13'
-        elif chr13_thresh < start_pos <= chr14_thresh:
-            selected_chrom = 'chr14'
-        elif chr14_thresh < start_pos <= chr15_thresh:
-            selected_chrom = 'chr15'
-        elif chr15_thresh < start_pos <= chr16_thresh:
-            selected_chrom = 'chr16'
         else:
             selected_chrom = 'chr?'
         outfile.write(str(selected_chrom) + '\t' + str(start_pos-correction_dict[str(selected_chrom)]) + '\t' + str(end_pos-correction_dict[str(selected_chrom)]) + '\t' + 'trial_'+str(trial_counter) +'_sim_read_' + str(name_counter) + '\n')

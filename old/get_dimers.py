@@ -1,6 +1,6 @@
 import gzip
 import os
-with open('bednames.txt','r') as infile:
+with open('bednames1','r') as infile:
     lines = infile.readlines()
     files =[str(e.strip()) for e in lines]
 infile.close()

@@ -45,10 +45,11 @@ for chrom in xrange(1,chrCount):
 #Calculate reads required for certain coverage.
 
 #These need to become parameters. 
-
 mean = 10000
 std = 2050
 desired_cov = 8
+
+#Some calculations for the log-normal distribution. 
 sigma = (np.log(1+(float(mean)/(float(std))**2)))**0.5
 mu = np.log(mean)-0.5*sigma**2
 req_reads = (desired_cov*total)/mean

@@ -1,7 +1,11 @@
 import gzip
 import numpy as np
+import sys
+import getopt
 
-with open('namelist','r') as infile:
+
+#This section is now in the generate_chrdist.py file. Unsure how to ultimately reconcile these...maybe remove that file and leave this.
+'''with open('namelist','r') as infile:
     lines = infile.readlines()
     names =[str(e.strip()) for e in lines]
 infile.close()
@@ -33,7 +37,7 @@ with open('chrdist.td','w+') as outfile2:
             outfile2.write(str(chrom) + '\t' + str(len(seq)) + '\n')
         infile.close()
         outfile.close()
-outfile2.close()
+outfile2.close()'''
 
 with open('chrdist.td','r') as infile:
     lengths = []
@@ -46,8 +50,14 @@ with open('chrdist.td','r') as infile:
 infile.close()
 d = dict(zip(names,lengths))
 total=0 
+
+#calculating total genome length
 for n in lengths:
     total += n
+
+chrCount = len(lengths)
+
+#this is going to have to change to depend on the number of chromosomes
 
 chr1_thresh= d['chr1']
 chr2_thresh=d['chr1'] + d['chr2']
@@ -64,6 +74,9 @@ chr10_thresh=d['chr1'] + d['chr2']+ d['chr3']+ d['chr4']+ d['chr5']+ d['chr6']+ 
 correction_dict = {'chr1':0,'chr2':chr1_thresh,'chr3':chr2_thresh,'chr4':chr3_thresh,'chr5':chr4_thresh,'chr6':chr5_thresh, 'chr7':chr6_thresh, 'chr8':chr7_thresh, 'chr9':chr8_thresh,'chr10':chr9_thresh}  
 
 #Calculate reads required for certain coverage.
+
+#These need to become parameters. 
+
 mean = 10000
 std = 2050
 desired_cov = 8
@@ -119,7 +132,6 @@ while trial_counter < trials:
         else:
             selected_chrom = 'chr?'
         outfile.write(str(selected_chrom) + '\t' + str(start_pos-correction_dict[str(selected_chrom)]) + '\t' + str(end_pos-correction_dict[str(selected_chrom)]) + '\t' + 'trial_'+str(trial_counter) +'_sim_read_' + str(name_counter) + '\n')
-        #print('Positions recorded for read ' + str(name_counter) + '. ' + str(len(readlengths)-name_counter -1) + ' reads remain.')
         name_counter+=1
         x=None
         y=None
@@ -128,5 +140,3 @@ while trial_counter < trials:
         end_pos=None
     outfile.close()
     trial_counter+=1
-    #print('Done')
-#print('El fin.')

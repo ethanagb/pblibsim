@@ -48,7 +48,7 @@ with open('chrdist.td','r') as infile:
         lengths.append(int(length))
         names.append(str(name))
 infile.close()
-d = dict(zip(names,lengths))
+lengthDict = dict(zip(names,lengths))
 total=0 
 
 #calculating total genome length
@@ -56,9 +56,29 @@ for n in lengths:
     total += n
 
 chrCount = len(lengths)
+thresholdDict={}
+correctionDict={}
 
-#this is going to have to change to depend on the number of chromosomes
+for chrom in xrange(1,chrCount):
+    name = "chr"+str(chrom) #this name will go as key in dict
+    if name =="chr1":
+        thresholdDict[name]=lengthDict[name]
+        correctionDict["chr1"]=0
+    else:
+        threshVal = 0
+        correctedVal = 0
+        i=1
+        while (i<=chrom):
+            name2 = "chr"+str(i)
+            threshVal += lengthDict[name2]
+            i += 1
+        correctedVal = threshVal - lengthDict[name2] 
+        thresholdDict[name2] = threshVal
+        correctionDict[name2] = correctedVal
 
+#this is going to have to change to depend on the number of chromosomes...see above
+
+'''
 chr1_thresh= d['chr1']
 chr2_thresh=d['chr1'] + d['chr2']
 chr3_thresh=d['chr1'] + d['chr2'] + d['chr3']
@@ -70,9 +90,8 @@ chr8_thresh=d['chr1'] + d['chr2']+ d['chr3']+ d['chr4']+ d['chr5']+ d['chr6']+ d
 chr9_thresh=d['chr1'] + d['chr2']+ d['chr3']+ d['chr4']+ d['chr5']+ d['chr6']+ d['chr7']+ d['chr8']+ d['chr9']
 chr10_thresh=d['chr1'] + d['chr2']+ d['chr3']+ d['chr4']+ d['chr5']+ d['chr6']+ d['chr7']+ d['chr8']+ d['chr9']+ d['chr10']
 
-
 correction_dict = {'chr1':0,'chr2':chr1_thresh,'chr3':chr2_thresh,'chr4':chr3_thresh,'chr5':chr4_thresh,'chr6':chr5_thresh, 'chr7':chr6_thresh, 'chr8':chr7_thresh, 'chr9':chr8_thresh,'chr10':chr9_thresh}  
-
+'''
 #Calculate reads required for certain coverage.
 
 #These need to become parameters. 
@@ -93,9 +112,7 @@ while trial_counter < trials:
     readlengths=np.random.lognormal(mu,sigma,req_reads)
     read_pos=[]
     name_counter = 0
-    #print('########################################' + '\n' + 'THIS IS TRIAL ' + str(trial_counter) + ' of ' + str(trials) +'.\n##################################')
-    #print(str(req_reads)+' are required for ' + str(desired_cov) +'x coverage. ' + str(len(readlengths)) + ' lengths were generated.')
-    
+   
     outfile = gzip.open('simulated_read_positions_trial_'+str(trial_counter) +'.bed.gz','wb')
     for length in readlengths:
         x = int(round(length))

@@ -13,11 +13,11 @@ with open('chrdist.td','r') as infile:
         names.append(str(name))
 infile.close()
 lengthDict = dict(zip(names,lengths))
-total=0 
+genomeLength=0 
 
 #calculating total genome length
 for n in lengths:
-    total += n
+    genomeLength += n
 
 chrCount = len(lengths)
 thresholdDict={} #dictionary of chromome thresholds (defined as end of a chromsome as determined by length from chrdist.td)
@@ -67,9 +67,11 @@ while trial_counter < trials:
     outfile = gzip.open('simulated_read_positions_trial_'+str(trial_counter) +'.bed.gz','wb')
     for length in readlengths:
         x = int(round(length))
-        buf = x/2
+        buf = x/2 #protects against end selection bias. 
         while True:
-            y = np.random.randint(0,total)
+            y = np.random.randint(0,genomeLength)
+
+            #This is going to have to change to work for any number of chromosomes. 
             if buf <= y <= chr1_thresh-buf or chr1_thresh + buf <= y <= chr2_thresh-buf or chr2_thresh + buf <= y <= chr3_thresh-buf or chr3_thresh + buf <= y <= chr4_thresh-buf or\
             chr4_thresh + buf <= y <= chr5_thresh-buf or chr5_thresh + buf <= y <= chr6_thresh-buf or chr6_thresh + buf <= y <= chr7_thresh-buf or chr7_thresh + buf <= y <= chr8_thresh-buf or\
             chr8_thresh + buf <= y <= chr9_thresh-buf or chr9_thresh + buf <= y <= chr10_thresh-buf:
@@ -77,6 +79,7 @@ while trial_counter < trials:
         start_pos = y-buf
         end_pos = y+buf
         #Figure out which chromosome this is in
+        #This is going to have to change to work for any number of chromosomes. 
         if 0<=start_pos<= chr1_thresh:
             selected_chrom = 'chr1'
         elif chr1_thresh < start_pos <= chr2_thresh:

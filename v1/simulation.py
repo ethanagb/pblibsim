@@ -3,42 +3,6 @@ import numpy as np
 import sys
 import getopt
 
-
-#This section is now in the generate_chrdist.py file. Unsure how to ultimately reconcile these...maybe remove that file and leave this.
-'''with open('namelist','r') as infile:
-    lines = infile.readlines()
-    names =[str(e.strip()) for e in lines]
-infile.close()
-
-with open('chrdist.td','w+') as outfile2:
-    for chrom in names:
-        
-        #Strip header lines from fasta for processing
-        with open(str(chrom) + '.fa','r') as infile, open(str(chrom) + '.noheader.fa','w+') as outfile:
-            for i, line in enumerate(infile):
-                if i >= 0:
-                    if not line.startswith('>'):
-                        outfile.write(line)
-        infile.close()
-        outfile.close()  
-        
-        #Remove any newline chars, remove undefined nts, make all nts uppercase for processing. 
-        with open(str(chrom) + '.noheader.fa','r') as infile, \
-        open(str(chrom) + '.clean.fa','w+') as outfile:
-            lines = infile.readlines()
-            x = map(str.strip,lines)
-            seq = ''
-            for line in x:
-                y = str(line)
-                z = y.upper()
-                w = z.replace('N','')
-                seq += w
-            outfile.write(seq)
-            outfile2.write(str(chrom) + '\t' + str(len(seq)) + '\n')
-        infile.close()
-        outfile.close()
-outfile2.close()'''
-
 with open('chrdist.td','r') as infile:
     lengths = []
     names = []
@@ -56,8 +20,10 @@ for n in lengths:
     total += n
 
 chrCount = len(lengths)
-thresholdDict={}
-correctionDict={}
+thresholdDict={} #dictionary of chromome thresholds (defined as end of a chromsome as determined by length from chrdist.td)
+correctionDict={} #A correction to get the start of the chromosome as well. Important for generating bed file. (Maybe can get rid of this eventually?)
+
+#Generate a dictionary of chromosome thresholds (replaces hard-coded previous version)
 
 for chrom in xrange(1,chrCount):
     name = "chr"+str(chrom) #this name will go as key in dict
@@ -76,22 +42,6 @@ for chrom in xrange(1,chrCount):
         thresholdDict[name2] = threshVal
         correctionDict[name2] = correctedVal
 
-#this is going to have to change to depend on the number of chromosomes...see above
-
-'''
-chr1_thresh= d['chr1']
-chr2_thresh=d['chr1'] + d['chr2']
-chr3_thresh=d['chr1'] + d['chr2'] + d['chr3']
-chr4_thresh=d['chr1'] + d['chr2']+ d['chr3']+ d['chr4']
-chr5_thresh=d['chr1'] + d['chr2']+ d['chr3']+ d['chr4']+ d['chr5']
-chr6_thresh=d['chr1'] + d['chr2']+ d['chr3']+ d['chr4']+ d['chr5']+ d['chr6']
-chr7_thresh=d['chr1'] + d['chr2']+ d['chr3']+ d['chr4']+ d['chr5']+ d['chr6']+ d['chr7']
-chr8_thresh=d['chr1'] + d['chr2']+ d['chr3']+ d['chr4']+ d['chr5']+ d['chr6']+ d['chr7']+ d['chr8']
-chr9_thresh=d['chr1'] + d['chr2']+ d['chr3']+ d['chr4']+ d['chr5']+ d['chr6']+ d['chr7']+ d['chr8']+ d['chr9']
-chr10_thresh=d['chr1'] + d['chr2']+ d['chr3']+ d['chr4']+ d['chr5']+ d['chr6']+ d['chr7']+ d['chr8']+ d['chr9']+ d['chr10']
-
-correction_dict = {'chr1':0,'chr2':chr1_thresh,'chr3':chr2_thresh,'chr4':chr3_thresh,'chr5':chr4_thresh,'chr6':chr5_thresh, 'chr7':chr6_thresh, 'chr8':chr7_thresh, 'chr9':chr8_thresh,'chr10':chr9_thresh}  
-'''
 #Calculate reads required for certain coverage.
 
 #These need to become parameters. 

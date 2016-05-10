@@ -12,7 +12,7 @@ def GenerateChrDist(argv):
     for opt, arg in opts:
         if opt == '-h':
             print("Usage: python generate_chrdist.py --infile </path/to/infile>")
-        elif opt ==("-i","--ifile"):
+        elif opt ==("-i","--infile"):
             infileName = arg
 
     #Open the file of chromosome names

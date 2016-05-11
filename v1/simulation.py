@@ -93,11 +93,12 @@ while trial_counter < trials:
                     loopController = False
                     break #would be out of bounds, so time to stop this loop (test this). 
 
-
+            '''
             if buf <= y <= chr1_thresh-buf or chr1_thresh + buf <= y <= chr2_thresh-buf or chr2_thresh + buf <= y <= chr3_thresh-buf or chr3_thresh + buf <= y <= chr4_thresh-buf or\
             chr4_thresh + buf <= y <= chr5_thresh-buf or chr5_thresh + buf <= y <= chr6_thresh-buf or chr6_thresh + buf <= y <= chr7_thresh-buf or chr7_thresh + buf <= y <= chr8_thresh-buf or\
             chr8_thresh + buf <= y <= chr9_thresh-buf or chr9_thresh + buf <= y <= chr10_thresh-buf:
                 break
+            '''
         start_pos = y-buf
         end_pos = y+buf
         #Figure out which chromosome this is in

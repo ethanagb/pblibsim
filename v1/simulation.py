@@ -25,7 +25,7 @@ correctionDict={} #A correction to get the start of the chromosome as well. Impo
 
 #Generate a dictionary of chromosome thresholds (replaces hard-coded previous version)
 
-for chrom in xrange(1,chrCount):
+for chrom in xrange(1,chrCount): #might have to change this because it will change chrX to chr24
     name = "chr"+str(chrom) #this name will go as key in dict
     if name =="chr1":
         thresholdDict[name]=lengthDict[name]
@@ -67,11 +67,33 @@ while trial_counter < trials:
     outfile = gzip.open('simulated_read_positions_trial_'+str(trial_counter) +'.bed.gz','wb')
     for length in readlengths:
         x = int(round(length))
-        buf = x/2 #protects against end selection bias. 
-        while True:
-            y = np.random.randint(0,genomeLength)
+        buf = x/2 #protects against end selection bias and simulated read bridging two chromosomes.
+        while loopController = True:
+            y = np.random.randint(0, genomeLength)
 
             #This is going to have to change to work for any number of chromosomes. 
+
+            #chrN_thresh variables are now in the thresholdDict[]...
+            #generate a name variable, check regions until something is satisfied...
+            #this is going to need thorough testing
+
+            for chrom in thresholdDict:
+                k = 1 #a counter to get the next chromosome threshold.
+                #Need to ensure this is iterating over key names (check this)
+                if chrom == 'chr1':
+                    t=0
+                else:
+                    t=thresholdDict[chrom]
+                    r=thresholdDict[names[k]]
+                if t+buf <= y <= t-buf or t+buf <= y <= r-buf:
+                    loopController = False
+                    break
+                k += 1
+                if k=chrCount:
+                    loopController = False
+                    break #would be out of bounds, so time to stop this loop (test this). 
+
+
             if buf <= y <= chr1_thresh-buf or chr1_thresh + buf <= y <= chr2_thresh-buf or chr2_thresh + buf <= y <= chr3_thresh-buf or chr3_thresh + buf <= y <= chr4_thresh-buf or\
             chr4_thresh + buf <= y <= chr5_thresh-buf or chr5_thresh + buf <= y <= chr6_thresh-buf or chr6_thresh + buf <= y <= chr7_thresh-buf or chr7_thresh + buf <= y <= chr8_thresh-buf or\
             chr8_thresh + buf <= y <= chr9_thresh-buf or chr9_thresh + buf <= y <= chr10_thresh-buf:

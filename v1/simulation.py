@@ -75,7 +75,7 @@ while trial_counter < trials:
 
             #chrN_thresh variables are now in the thresholdDict[]...
             #generate a name variable, check regions until something is satisfied...
-            #this is going to need thorough testing
+            #this requires thorough testing
 
             for chrom in thresholdDict:
                 k = 1 #a counter to get the next chromosome threshold.
@@ -103,6 +103,8 @@ while trial_counter < trials:
         end_pos = y+buf
         #Figure out which chromosome this is in
         #This is going to have to change to work for any number of chromosomes. 
+
+        
         if 0<=start_pos<= chr1_thresh:
             selected_chrom = 'chr1'
         elif chr1_thresh < start_pos <= chr2_thresh:

@@ -143,17 +143,28 @@ while trial_counter < trials:
             selected_chrom = 'chr10'
         else:
             selected_chrom = 'chr?'
-        
-        #this is the old out line, I think now we can just call from the correctionDict...it has corrected values now, not just a correction factor. 
+      """
+        #build correction dictionary
+        correctionDict={}
+        for j in xrange(1,chrCount):
+            chromName = "chr"+ str(j)
+            prevChromName = "chr" + str(j-1)
+
+            if chromName == "chr1":
+                correctionDict[chromName] = 0
+            else:
+                correctionDict[chromName] = thresholdDict[chromName]
+
 
         outfile.write(str(selected_chrom) + '\t' + str(start_pos-correction_dict[str(selected_chrom)]) + '\t' + str(end_pos-correction_dict[str(selected_chrom)]) + '\t' + 'trial_'+str(trial_counter) +'_sim_read_' + str(name_counter) + '\n')
-        """
 
+        #count this run and reset reused variables. 
         name_counter+=1
         x=None
         y=None
         selected_chrom=None
         start_pos=None
         end_pos=None
+
     outfile.close()
     trial_counter+=1

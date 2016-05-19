@@ -104,7 +104,23 @@ while trial_counter < trials:
         #Figure out which chromosome this is in
         #This is going to have to change to work for any number of chromosomes. 
 
-        
+        chromFound = False
+        while chromFound = False:
+            for i in xrange(1,chrCount):
+                chromName = "chr" + str(i)
+                prevChromName ="chr" + str(i-1)
+
+                if i=1:
+                    if 0<=start_pos<=thresholdDict[chromName]:
+                        selected_chrom = chromName
+                        chromFound = True
+                        break
+                else:
+                    if thresholdDict[prevChromName] < start_pos <= thresholdDict[chromName]:
+                        selected_chrom = chromName
+                        chromFound = True
+                        break
+        """
         if 0<=start_pos<= chr1_thresh:
             selected_chrom = 'chr1'
         elif chr1_thresh < start_pos <= chr2_thresh:
@@ -127,7 +143,12 @@ while trial_counter < trials:
             selected_chrom = 'chr10'
         else:
             selected_chrom = 'chr?'
+        
+        #this is the old out line, I think now we can just call from the correctionDict...it has corrected values now, not just a correction factor. 
+
         outfile.write(str(selected_chrom) + '\t' + str(start_pos-correction_dict[str(selected_chrom)]) + '\t' + str(end_pos-correction_dict[str(selected_chrom)]) + '\t' + 'trial_'+str(trial_counter) +'_sim_read_' + str(name_counter) + '\n')
+        """
+
         name_counter+=1
         x=None
         y=None

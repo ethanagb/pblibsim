@@ -128,5 +128,3 @@ while trial_counter < trials:
         end_pos=None
     outfile.close()
     trial_counter+=1
-    #print('Done')
-#print('El fin.')

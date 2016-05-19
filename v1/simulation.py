@@ -29,7 +29,7 @@ for chrom in xrange(1,chrCount): #might have to change this because it will chan
     name = "chr"+str(chrom) #this name will go as key in dict
     if name =="chr1":
         thresholdDict[name]=lengthDict[name]
-        correctionDict["chr1"]=0
+        #correctionDict["chr1"]=0
     else:
         threshVal = 0
         correctedVal = 0
@@ -40,7 +40,7 @@ for chrom in xrange(1,chrCount): #might have to change this because it will chan
             i += 1
         correctedVal = threshVal - lengthDict[name2] 
         thresholdDict[name2] = threshVal
-        correctionDict[name2] = correctedVal
+        #correctionDict[name2] = correctedVal
 
 #Calculate reads required for certain coverage.
 
@@ -71,8 +71,6 @@ while trial_counter < trials:
         while loopController = True:
             y = np.random.randint(0, genomeLength)
 
-            #This is going to have to change to work for any number of chromosomes. 
-
             #chrN_thresh variables are now in the thresholdDict[]...
             #generate a name variable, check regions until something is satisfied...
             #this requires thorough testing
@@ -93,17 +91,10 @@ while trial_counter < trials:
                     loopController = False
                     break #would be out of bounds, so time to stop this loop (test this). 
 
-            '''
-            if buf <= y <= chr1_thresh-buf or chr1_thresh + buf <= y <= chr2_thresh-buf or chr2_thresh + buf <= y <= chr3_thresh-buf or chr3_thresh + buf <= y <= chr4_thresh-buf or\
-            chr4_thresh + buf <= y <= chr5_thresh-buf or chr5_thresh + buf <= y <= chr6_thresh-buf or chr6_thresh + buf <= y <= chr7_thresh-buf or chr7_thresh + buf <= y <= chr8_thresh-buf or\
-            chr8_thresh + buf <= y <= chr9_thresh-buf or chr9_thresh + buf <= y <= chr10_thresh-buf:
-                break
-            '''
         start_pos = y-buf
         end_pos = y+buf
+        
         #Figure out which chromosome this is in
-        #This is going to have to change to work for any number of chromosomes. 
-
         chromFound = False
         while chromFound = False:
             for i in xrange(1,chrCount):
@@ -120,32 +111,8 @@ while trial_counter < trials:
                         selected_chrom = chromName
                         chromFound = True
                         break
-        """
-        if 0<=start_pos<= chr1_thresh:
-            selected_chrom = 'chr1'
-        elif chr1_thresh < start_pos <= chr2_thresh:
-            selected_chrom = 'chr2'
-        elif chr2_thresh < start_pos <= chr3_thresh:
-            selected_chrom = 'chr3'
-        elif chr3_thresh < start_pos <= chr4_thresh:
-            selected_chrom = 'chr4'
-        elif chr4_thresh < start_pos <= chr5_thresh:
-            selected_chrom = 'chr5'
-        elif chr5_thresh < start_pos <= chr6_thresh:
-            selected_chrom = 'chr6'
-        elif chr6_thresh < start_pos <= chr7_thresh:
-            selected_chrom = 'chr7'
-        elif chr7_thresh < start_pos <= chr8_thresh:
-            selected_chrom = 'chr8'
-        elif chr8_thresh < start_pos <= chr9_thresh:
-            selected_chrom = 'chr9'
-        elif chr9_thresh < start_pos <= chr10_thresh:
-            selected_chrom = 'chr10'
-        else:
-            selected_chrom = 'chr?'
-      """
+    
         #build correction dictionary
-        correctionDict={}
         for j in xrange(1,chrCount):
             chromName = "chr"+ str(j)
             prevChromName = "chr" + str(j-1)

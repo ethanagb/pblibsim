@@ -49,4 +49,6 @@ def GenerateChrDist(argv):
             infile.close()
             outfile.close()
     outfile2.close()
-GenerateChrDist(sys.argv[1:])
+
+if __name__ == "__main__":    
+    GenerateChrDist(sys.argv[1:])

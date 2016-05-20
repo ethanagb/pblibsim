@@ -153,3 +153,5 @@ def simulateReads(argv):
 
         outfile.close()
         trial_counter+=1
+if __name__ == "__main__":
+    simulateReads(sys.argv[1:])

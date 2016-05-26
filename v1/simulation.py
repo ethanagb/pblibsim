@@ -4,6 +4,64 @@ import sys
 import getopt
 
 def simulateReads(argv):
+    #parse args
+    try:
+        opts, args = getopt.getopt(argv,i:o:m:s:c:h,["infile=","outfile=","mean_read_length=-","standard_dev=", "coverage="])
+    except getopt.GetoptError:
+        print("Usage: python simulation.py --infile </path/to/ingenome.fa> --outfile </path/to/outfile.bed> -m <mean read length> -s <standard dev of read lenghts> -c <coverage>")
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == '-h':
+            print("Usage: python simulation.py --infile </path/to/ingenome.fa> --outfile </path/to/outfile.bed> -m <mean read length> -s <standard dev of read lenghts> -c <coverage>")
+        elif opt==("-i","--infile"):
+            infileName = arg
+        elif opt ==("-o","--outfile"):
+            outfileName = arg
+        elif opt ==("-m", "--mean_read_length"):
+            mean = arg
+        elif opt ==("-s", "--standard_dev"):
+            std = arg
+        elif opt ==("-c", "--coverage"):
+            desired_cov = arg
+   
+    #generate chrdist.td file
+
+    with open(infileName,'r') as infile:
+        lines = infile.readlines()
+        names =[str(e.strip()) for e in lines]
+    infile.close()
+
+    with open('chrdist.td','w+') as outfile2:
+        for chrom in names:
+            
+            #Strip header lines from fasta for processing
+            with open(str(chrom) + '.fa','r') as infile, open(str(chrom) + '.noheader.fa','w+') as outfile:
+                for i, line in enumerate(infile):
+                    if i >= 0:
+                        if not line.startswith('>'):
+                            outfile.write(line)
+            infile.close()
+            outfile.close()  
+            
+            #Remove any newline chars, remove undefined nts, make all nts uppercase for processing. 
+            with open(str(chrom) + '.noheader.fa','r') as infile, \
+            open(str(chrom) + '.clean.fa','w+') as outfile:
+                lines = infile.readlines()
+                x = map(str.strip,lines)
+                seq = ''
+                for line in x:
+                    y = str(line)
+                    z = y.upper()
+                    w = z.replace('N','')
+                    seq += w
+                outfile.write(seq)
+                outfile2.write(str(chrom) + '\t' + str(len(seq)) + '\n')
+            infile.close()
+            outfile.close()
+    outfile2.close()
+
+    #Add a cleanup step
+
     with open('chrdist.td','r') as infile:
         lengths = []
         names = []
@@ -46,22 +104,6 @@ def simulateReads(argv):
     #Calculate reads required for certain coverage.
 
     #These need to become parameters. 
-    try:
-        opts, args = getopt.getopt(argv,ho:m:s:c:,["outfile=","mean_read_length=-","standard_dev=", "coverage="])
-    except getopt.GetoptError:
-        print("Usage: python simulation.py --outfile </path/to/outfile.bed> -m <mean read length> -s <standard dev of read lenghts> -c <coverage>")
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt == '-h':
-            print("Usage: python generate_chrdist.py --infile </path/to/infile>")
-        elif opt ==("-o","--outfile"):
-            outfileName = arg
-        elif opt ==("-m", "--mean_read_length"):
-            mean = arg
-        elif opt ==("-s", "--standard_dev"):
-            std = arg
-        elif opt ==("-c", "--coverage"):
-            desired_cov = arg
 
     #mean = 10000
     #std = 2050
@@ -153,5 +195,6 @@ def simulateReads(argv):
 
         outfile.close()
         trial_counter+=1
+
 if __name__ == "__main__":
     simulateReads(sys.argv[1:])

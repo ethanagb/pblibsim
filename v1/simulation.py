@@ -1,11 +1,10 @@
 import gzip
 import numpy as np
-import sys
-import getopt
+import sys, getopt
 import math
 
 def simulateReads(argv):
-    #parse args
+    #parse args and intialize variables 
     global mean, outfileName, std, desired_cov
     outfileName = 'simulationResults.bed'
     mean = 10000
@@ -33,14 +32,7 @@ def simulateReads(argv):
             desired_cov = arg
     print("SiLiCO will simulate sequencing results with the following paramters:" + '\n' + "Mean Read Length = " + str(mean) + '\n' + "Standard Deviation of Read Length = " + str(std) + '\n' + 'Coverage = ' + str(desired_cov) + '\n')
     #generate chrdist.td file
-    """try:
-        with open(infileName,'r') as infile:
-            lines = infile.readlines()
-            names =[str(e.strip()) for e in lines]
-        infile.close()
-    except UnboundLocalError:
-        pass
-"""
+    
     with open('chrdist.td','r') as infile:
         lengths = []
         names = []
@@ -56,15 +48,14 @@ def simulateReads(argv):
     #calculating total genome length
     for n in lengths:
         genomeLength += n
-   
 
     chrCount = len(lengths)
     thresholdDict={} #dictionary of chromome thresholds (defined as end of a chromsome as determined by length from chrdist.td)
     correctionDict={} #A correction to get the start of the chromosome as well. Important for generating bed file. (Maybe can get rid of this eventually?)
 
     #Generate a dictionary of chromosome thresholds (replaces hard-coded previous version)
-
-    for chrom in xrange(1,chrCount): #might have to change this because it will change chrX to chr24 (build an array of names and use an index)
+    print("Building threshold dictionaries...")
+    for chrom in range(1,chrCount): #might have to change this because it will change chrX to chr24 (build an array of names and use an index)
         name = "chr"+str(chrom) #this name will go as key in dict
         if name =="chr1":
             thresholdDict[name]=lengthDict[name]
@@ -80,7 +71,8 @@ def simulateReads(argv):
             correctedVal = threshVal - lengthDict[name2] 
             thresholdDict[name2] = threshVal
             #correctionDict[name2] = correctedVal
-
+    print("Done!")
+    print("Calculating distribution parameters...")
     #Some calculations for the log-normal distribution. 
     sigma = (math.log(1+(float(mean)/(float(std))**2)))**0.5
     mu = math.log(float(mean))-0.5*sigma**2
@@ -92,13 +84,14 @@ def simulateReads(argv):
     trial_counter=0
     trials = 1000
     while trial_counter < trials:
+        print("This is trial " + str(trial_counter))
         read_length_counter = 0
         read_pos_counter = 0
         readlengths = None
         readlengths=np.random.lognormal(mu,sigma,req_reads)
         read_pos=[]
         name_counter = 0
-       
+        print(len(readlengths))       
         outfile = gzip.open('simulated_read_positions_trial_'+str(trial_counter) +'.bed.gz','wb')
         for length in readlengths:
             x = int(round(length))
@@ -106,7 +99,7 @@ def simulateReads(argv):
             try:
                 while loopController == True:
                     y = np.random.randint(0, genomeLength)
-
+                    print("y = " + str(y))
                     #chrN_thresh variables are now in the thresholdDict[]...
                     #generate a name variable, check regions until something is satisfied...
                     #this requires thorough testing
@@ -130,14 +123,18 @@ def simulateReads(argv):
                 pass
             start_pos = y-buf
             end_pos = y+buf
+            print("start = " + str(start_pos))
+            print("end = " + str(end_pos))
             
             #Figure out which chromosome this is in
             chromFound = False
-            while chromFound == False:
-                for i in xrange(1,chrCount):
+            print("Finding which chromosome this read is from...")
+            while chromFound == False: ##something is going wrong here 
+                for i in range(1,chrCount):
                     chromName = "chr" + str(i)
                     prevChromName ="chr" + str(i-1)
-
+                    #print("testing:")
+                    #print chromName, prevChromName
                     if i==1:
                         if 0<=start_pos<=thresholdDict[chromName]:
                             selected_chrom = chromName
@@ -148,18 +145,19 @@ def simulateReads(argv):
                             selected_chrom = chromName
                             chromFound = True
                             break
-        
+            print("This is on " + str(selected_chrom))
             #build correction dictionary
-            for j in xrange(1,chrCount):
+            print("correcting positions...")
+            for j in range(1,chrCount):
                 chromName = "chr"+ str(j)
                 prevChromName = "chr" + str(j-1)
+                print chromName, prevChromName
 
                 if chromName == "chr1":
                     correctionDict[chromName] = 0
                 else:
                     correctionDict[chromName] = thresholdDict[chromName]
-
-
+            print("Writing this read to the outfile for this trial...")
             outfile.write(str(selected_chrom) + '\t' + str(start_pos-correction_dict[str(selected_chrom)]) + '\t' + str(end_pos-correction_dict[str(selected_chrom)]) + '\t' + 'trial_'+str(trial_counter) +'_sim_read_' + str(name_counter) + '\n')
 
             #count this run and reset reused variables. 

@@ -19,58 +19,26 @@ def simulateReads(argv):
     for opt, arg in opts:
         if opt == '-h':
             print("Usage: python simulation.py --infile </path/to/ingenome.fa> --outfile </path/to/outfile.bed> -m <mean read length> -s <standard dev of read lenghts> -c <coverage>")
-        elif opt==("-i","--infile"):
+            sys.exit(2)
+        elif opt in ("-i","--infile"):
             infileName = arg
-        elif opt ==("-o","--outfile"):
+        elif opt in ("-o","--outfile"):
             outfileName = arg
-        elif opt ==("-m", "--mean_read_length"):
+        elif opt in ("-m", "--mean_read_length"):
             mean = arg
-        elif opt ==("-s", "--standard_dev"):
+        elif opt in ("-s", "--standard_dev"):
             std = arg
-        elif opt ==("-c", "--coverage"):
+        elif opt in ("-c", "--coverage"):
             desired_cov = arg
-   
+    print("SiLiCO will simulate sequencing results with the following paramters" + '\n' + "Mean Read Length = " + str(mean) + '\n' + "Standard Deviation of Read Length = " + str(std) + '\n' + 'Coverage = ' + str(desired_cov))
     #generate chrdist.td file
-    global names
-    names = []
     try:
         with open(infileName,'r') as infile:
             lines = infile.readlines()
             names =[str(e.strip()) for e in lines]
         infile.close()
     except UnboundLocalError:
-        pass
-
-    with open('chrdist.td','w+') as outfile2:
-        for chrom in names:
-            
-            #Strip header lines from fasta for processing
-            with open(str(chrom) + '.fa','r') as infile, open(str(chrom) + '.noheader.fa','w+') as outfile:
-                for i, line in enumerate(infile):
-                    if i >= 0:
-                        if not line.startswith('>'):
-                            outfile.write(line)
-            infile.close()
-            outfile.close()  
-            
-            #Remove any newline chars, remove undefined nts, make all nts uppercase for processing. 
-            with open(str(chrom) + '.noheader.fa','r') as infile, \
-            open(str(chrom) + '.clean.fa','w+') as outfile:
-                lines = infile.readlines()
-                x = map(str.strip,lines)
-                seq = ''
-                for line in x:
-                    y = str(line)
-                    z = y.upper()
-                    w = z.replace('N','')
-                    seq += w
-                outfile.write(seq)
-                outfile2.write(str(chrom) + '\t' + str(len(seq)) + '\n')
-            infile.close()
-            outfile.close()
-    outfile2.close()
-
-    #Add a cleanup step
+        print("---")
 
     with open('chrdist.td','r') as infile:
         lengths = []
@@ -94,7 +62,7 @@ def simulateReads(argv):
 
     #Generate a dictionary of chromosome thresholds (replaces hard-coded previous version)
 
-    for chrom in xrange(1,chrCount): #might have to change this because it will change chrX to chr24
+    for chrom in xrange(1,chrCount): #might have to change this because it will change chrX to chr24 (build an array of names and use an index)
         name = "chr"+str(chrom) #this name will go as key in dict
         if name =="chr1":
             thresholdDict[name]=lengthDict[name]

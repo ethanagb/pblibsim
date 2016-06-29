@@ -2,19 +2,20 @@ import gzip
 import numpy as np
 import sys
 import getopt
+import math
 
 def simulateReads(argv):
     #parse args
-    global mean, outfileName, std, desired_cov, total
+    global mean, outfileName, std, desired_cov
     outfileName = 'simulationResults.bed'
     mean = 10000
     std = 2050
     desired_cov = 8 
-    total = 0
+    y=0
     try:
         opts, args = getopt.getopt(argv,"i:o:m:s:c:h",["infile=","outfile=","mean_read_length=-","standard_dev=", "coverage="])
     except getopt.GetoptError:
-        print("Usage: python simulation.py --infile </path/to/ingenome.fa> --outfile </path/to/outfile.bed> -m <mean read length> -s <standard dev of read lenghts> -c <coverage>")
+        print("Usage: python simulation.py --infile </path/to/chrdist.td> --outfile </path/to/outfile.bed> -m <mean read length> -s <standard dev of read lenghts> -c <coverage>")
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
@@ -30,16 +31,16 @@ def simulateReads(argv):
             std = arg
         elif opt in ("-c", "--coverage"):
             desired_cov = arg
-    print("SiLiCO will simulate sequencing results with the following paramters" + '\n' + "Mean Read Length = " + str(mean) + '\n' + "Standard Deviation of Read Length = " + str(std) + '\n' + 'Coverage = ' + str(desired_cov))
+    print("SiLiCO will simulate sequencing results with the following paramters:" + '\n' + "Mean Read Length = " + str(mean) + '\n' + "Standard Deviation of Read Length = " + str(std) + '\n' + 'Coverage = ' + str(desired_cov) + '\n')
     #generate chrdist.td file
-    try:
+    """try:
         with open(infileName,'r') as infile:
             lines = infile.readlines()
             names =[str(e.strip()) for e in lines]
         infile.close()
     except UnboundLocalError:
-        print("---")
-
+        pass
+"""
     with open('chrdist.td','r') as infile:
         lengths = []
         names = []
@@ -55,6 +56,7 @@ def simulateReads(argv):
     #calculating total genome length
     for n in lengths:
         genomeLength += n
+   
 
     chrCount = len(lengths)
     thresholdDict={} #dictionary of chromome thresholds (defined as end of a chromsome as determined by length from chrdist.td)
@@ -79,19 +81,14 @@ def simulateReads(argv):
             thresholdDict[name2] = threshVal
             #correctionDict[name2] = correctedVal
 
-    #Calculate reads required for certain coverage.
-
-    #These need to become parameters. 
-
-    #mean = 10000
-    #std = 2050
-    #desired_cov = 8
-
     #Some calculations for the log-normal distribution. 
-    sigma = (np.log(1+(float(mean)/(float(std))**2)))**0.5
-    mu = np.log(mean)-0.5*sigma**2
-    req_reads = (desired_cov*total)/mean
-
+    sigma = (math.log(1+(float(mean)/(float(std))**2)))**0.5
+    mu = math.log(float(mean))-0.5*sigma**2
+    req_reads = int((int(desired_cov)*genomeLength)/float(mean))
+    print("sigma:" + str(sigma))
+    print("mu: " + str(mu))
+    print(str(req_reads) + " in-silico reads will be generated per trial.")
+    
     trial_counter=0
     trials = 1000
     while trial_counter < trials:
@@ -106,29 +103,31 @@ def simulateReads(argv):
         for length in readlengths:
             x = int(round(length))
             buf = x/2 #protects against end selection bias and simulated read bridging two chromosomes.
-            while loopController == True:
-                y = np.random.randint(0, genomeLength)
+            try:
+                while loopController == True:
+                    y = np.random.randint(0, genomeLength)
 
-                #chrN_thresh variables are now in the thresholdDict[]...
-                #generate a name variable, check regions until something is satisfied...
-                #this requires thorough testing
+                    #chrN_thresh variables are now in the thresholdDict[]...
+                    #generate a name variable, check regions until something is satisfied...
+                    #this requires thorough testing
 
-                for chrom in thresholdDict:
-                    k = 1 #a counter to get the next chromosome threshold.
-                    #Need to ensure this is iterating over key names (check this)
-                    if chrom == 'chr1':
-                        t=0
-                    else:
-                        t=thresholdDict[chrom]
-                        r=thresholdDict[names[k]]
-                    if t+buf <= y <= t-buf or t+buf <= y <= r-buf:
-                        loopController = False
-                        break
-                    k += 1
-                    if k==chrCount:
-                        loopController = False
-                        break #would be out of bounds, so time to stop this loop (test this). 
-
+                    for chrom in thresholdDict:
+                        k = 1 #a counter to get the next chromosome threshold.
+                        #Need to ensure this is iterating over key names (check this)
+                        if chrom == 'chr1':
+                            t=0
+                        else:
+                            t=thresholdDict[chrom]
+                            r=thresholdDict[names[k]]
+                        if t+buf <= y <= t-buf or t+buf <= y <= r-buf:
+                            loopController = False
+                            break
+                        k += 1
+                        if k==chrCount:
+                            loopController = False
+                            break #would be out of bounds, so time to stop this loop (test this). 
+            except UnboundLocalError:
+                pass
             start_pos = y-buf
             end_pos = y+buf
             

@@ -5,8 +5,14 @@ import getopt
 
 def simulateReads(argv):
     #parse args
+    global mean, outfileName, std, desired_cov, total
+    outfileName = 'simulationResults.bed'
+    mean = 10000
+    std = 2050
+    desired_cov = 8 
+    total = 0
     try:
-        opts, args = getopt.getopt(argv,i:o:m:s:c:h,["infile=","outfile=","mean_read_length=-","standard_dev=", "coverage="])
+        opts, args = getopt.getopt(argv,"i:o:m:s:c:h",["infile=","outfile=","mean_read_length=-","standard_dev=", "coverage="])
     except getopt.GetoptError:
         print("Usage: python simulation.py --infile </path/to/ingenome.fa> --outfile </path/to/outfile.bed> -m <mean read length> -s <standard dev of read lenghts> -c <coverage>")
         sys.exit(2)
@@ -25,11 +31,15 @@ def simulateReads(argv):
             desired_cov = arg
    
     #generate chrdist.td file
-
-    with open(infileName,'r') as infile:
-        lines = infile.readlines()
-        names =[str(e.strip()) for e in lines]
-    infile.close()
+    global names
+    names = []
+    try:
+        with open(infileName,'r') as infile:
+            lines = infile.readlines()
+            names =[str(e.strip()) for e in lines]
+        infile.close()
+    except UnboundLocalError:
+        pass
 
     with open('chrdist.td','w+') as outfile2:
         for chrom in names:
@@ -128,7 +138,7 @@ def simulateReads(argv):
         for length in readlengths:
             x = int(round(length))
             buf = x/2 #protects against end selection bias and simulated read bridging two chromosomes.
-            while loopController = True:
+            while loopController == True:
                 y = np.random.randint(0, genomeLength)
 
                 #chrN_thresh variables are now in the thresholdDict[]...
@@ -147,7 +157,7 @@ def simulateReads(argv):
                         loopController = False
                         break
                     k += 1
-                    if k=chrCount:
+                    if k==chrCount:
                         loopController = False
                         break #would be out of bounds, so time to stop this loop (test this). 
 
@@ -156,12 +166,12 @@ def simulateReads(argv):
             
             #Figure out which chromosome this is in
             chromFound = False
-            while chromFound = False:
+            while chromFound == False:
                 for i in xrange(1,chrCount):
                     chromName = "chr" + str(i)
                     prevChromName ="chr" + str(i-1)
 
-                    if i=1:
+                    if i==1:
                         if 0<=start_pos<=thresholdDict[chromName]:
                             selected_chrom = chromName
                             chromFound = True

@@ -1,5 +1,6 @@
 import numpy as np
 import sys, getopt
+import os 
 
 def GenerateChrDist(argv):
     #Get the list of chromosome names from command line 
@@ -23,7 +24,6 @@ def GenerateChrDist(argv):
 
     with open('chrdist.td','w+') as outfile2:
         for chrom in names:
-            
             #Strip header lines from fasta for processing
             with open(str(chrom) + '.fa','r') as infile, open(str(chrom) + '.noheader.fa','w+') as outfile:
                 for i, line in enumerate(infile):
@@ -32,7 +32,6 @@ def GenerateChrDist(argv):
                             outfile.write(line)
             infile.close()
             outfile.close()  
-            
             #Remove any newline chars, remove undefined nts, make all nts uppercase for processing. 
             with open(str(chrom) + '.noheader.fa','r') as infile, \
             open(str(chrom) + '.clean.fa','w+') as outfile:
@@ -49,8 +48,12 @@ def GenerateChrDist(argv):
             infile.close()
             outfile.close()
     outfile2.close()
+    #cleanup
+
+    for chrom in names:
+        os.remove(str(chrom) + '.noheader.fa')
+        os.remove(str(chrom) + 'clean.fa')
 
 if __name__ == "__main__":    
     GenerateChrDist(sys.argv[1:])
 
-    

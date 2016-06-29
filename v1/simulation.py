@@ -4,6 +4,7 @@ import numpy as np
 import sys, getopt
 import math
 from getRandomPosition import getRandomPosition
+from findChromosome import findChromosome
 
 def simulateReads(argv):
     #parse args and intialize variables 
@@ -102,30 +103,6 @@ def simulateReads(argv):
         for length in readlengths:
             x = int(round(length))
             buf = x/2 #protects against end selection bias and simulated read bridging two chromosomes.
-            
-            """while loopController == True:
-                y = np.random.randint(buf, genomeLength-buf)
-                print("y = " + str(y))
-                #chrN_thresh variables are now in the thresholdDict[]...
-                #generate a name variable, check regions until something is satisfied...
-                #this requires thorough testing
-
-                for chrom in thresholdDict:
-                    k = 1 #a counter to get the next chromosome threshold.
-                    #Need to ensure this is iterating over key names (check this)
-                    if chrom == 'chr1':
-                        t=0
-                    else:
-                        t=thresholdDict[chrom]
-                        r=thresholdDict[names[k]]
-                    if t+buf <= y <= t-buf or t+buf <= y <= r-buf:
-                        loopController = False
-                        break
-                    k += 1
-                    if k==chrCount:
-                        loopController = False
-                        break #would be out of bounds, so time to stop this loop (test this). 
-                print y"""
             y=getRandomPosition(buf,genomeLength,thresholdDict,names)
 
             start_pos = y-buf
@@ -134,10 +111,10 @@ def simulateReads(argv):
             print("end = " + str(end_pos))
             
             #Figure out which chromosome this is in
-            chromFound = False
+            selected_chrom = findChromosome(start_pos,names,thresholdDict)
+            """chromFound = False
             print("Finding which chromosome this read is from...")
                 
-            
             while chromFound == False: ##something is going wrong here 
                 for i in range(0,len(names)):
                     chromName = str(names[i])
@@ -159,18 +136,20 @@ def simulateReads(argv):
                             if chromFound == True:
                                 print("Chrom found!")
                             break
-                print("still running the while loop")
+                print("still running the while loop")"""
 
             print("This is on " + str(selected_chrom))
             #build correction dictionary
             print("correcting positions...")
-            for j in range(0,chrCount+1):
-                chromName = str(names[i])
-                if i-1 < 0: #chr1
+            for j in range(0,chrCount):
+                #print("j= " + str(j)) 
+                chromName = str(names[j])
+                if j-1 < 0: #chr1
                     correctionDict[chromName] = 0
-                elif i-1 >= 0:
-                    prevChromName = str(names[i-1])
+                elif j-1 >= 0:
+                    prevChromName = str(names[j-1])
                     correctionDict[chromName] = thresholdDict[prevChromName]
+
             print("Writing this read to the outfile for this trial...")
             outfile.write(str(selected_chrom) + '\t' + str(start_pos-correctionDict[str(selected_chrom)]) + '\t' + str(end_pos-correctionDict[str(selected_chrom)]) + '\t' + 'trial_'+str(trial_counter) +'_sim_read_' + str(name_counter) + '\n')
 

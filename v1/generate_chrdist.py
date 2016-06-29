@@ -6,21 +6,22 @@ def GenerateChrDist(argv):
     #Get the list of chromosome names from command line 
     infileName=''
     try:
-        opts, args = getopt.getopt(argv,hi:,["infile="])
+        opts, args = getopt.getopt(argv,"hi:",["infile="])
     except getopt.GetoptError:
         print("Usage: python generate_chrdist.py --infile /path/to/infile")
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
             print("Usage: python generate_chrdist.py --infile </path/to/infile>")
-        elif opt ==("-i","--infile"):
+            sys.exit()
+        elif opt in ("-i","--infile"):
             infileName = arg
 
     #Open the file of chromosome names
     with open(infileName,'r') as infile:
         lines = infile.readlines()
         names =[str(e.strip()) for e in lines]
-    infile.close()
+    infile.close(2)
 
     with open('chrdist.td','w+') as outfile2:
         for chrom in names:
@@ -48,12 +49,10 @@ def GenerateChrDist(argv):
             infile.close()
             outfile.close()
     outfile2.close()
-    #cleanup
 
     for chrom in names:
         os.remove(str(chrom) + '.noheader.fa')
-        os.remove(str(chrom) + 'clean.fa')
+        os.remove(str(chrom) + '.clean.fa')
 
 if __name__ == "__main__":    
     GenerateChrDist(sys.argv[1:])
-

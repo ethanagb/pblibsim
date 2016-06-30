@@ -1,4 +1,5 @@
 from __future__ import division
+from natsort import natsorted
 import gzip
 import numpy as np
 import sys, getopt
@@ -49,6 +50,7 @@ def simulateReads(argv):
     infile.close()
     lengthDict = dict(zip(names,lengths))
     genomeLength=0 
+    names=natsorted(names)
 
     #calculating total genome length
     for n in lengths:
@@ -89,7 +91,7 @@ def simulateReads(argv):
     print(str(req_reads) + " in-silico reads will be generated per trial.")
     
     trial_counter=0
-    trials = 1000
+    trials = 1
     while trial_counter < trials:
         print("This is trial " + str(trial_counter))
         read_length_counter = 0
@@ -112,31 +114,6 @@ def simulateReads(argv):
             
             #Figure out which chromosome this is in
             selected_chrom = findChromosome(start_pos,names,thresholdDict)
-            """chromFound = False
-            print("Finding which chromosome this read is from...")
-                
-            while chromFound == False: ##something is going wrong here 
-                for i in range(0,len(names)):
-                    chromName = str(names[i])
-                    print("testing:")
-                    print chromName
-                    if i-1 >= 0:
-                        prevChromName = str(names[i-1])
-                        if thresholdDict[prevChromName] < start_pos <= thresholdDict[chromName]:
-                            selected_chrom = chromName
-                            chromFound = True
-                            if chromFound == True:
-                                print("Chrom found!")
-                            break
-                    
-                    elif i-1 < 0: #chr1
-                        if 0<=start_pos<=thresholdDict[chromName]:
-                            selected_chrom = chromName
-                            chromFound = True
-                            if chromFound == True:
-                                print("Chrom found!")
-                            break
-                print("still running the while loop")"""
 
             print("This is on " + str(selected_chrom))
             #build correction dictionary

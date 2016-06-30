@@ -102,11 +102,11 @@ def simulateReads(argv):
         outfile = gzip.open('simulated_read_positions_trial_'+str(trial_counter) +'.bed.gz','wb')
         for length in readlengths:
             x = int(round(length))
-            buf = x/2 #protects against end selection bias and simulated read bridging two chromosomes.
+            buf = math.ceil(x/2) #protects against end selection bias and simulated read bridging two chromosomes, in the event of a .5, rounds up to the whole
             y=getRandomPosition(buf,genomeLength,thresholdDict,names)
 
-            start_pos = y-buf
-            end_pos = y+buf
+            start_pos = int(y-buf)
+            end_pos = int(y+buf)
             print("start = " + str(start_pos))
             print("end = " + str(end_pos))
             

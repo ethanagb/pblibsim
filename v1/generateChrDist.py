@@ -21,7 +21,7 @@ def GenerateChrDist(argv):
     with open(infileName,'r') as infile:
         lines = infile.readlines()
         names =[str(e.strip()) for e in lines]
-    infile.close(2)
+    infile.close()
 
     with open('chrdist.td','w+') as outfile2:
         for chrom in names:

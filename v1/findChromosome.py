@@ -4,7 +4,9 @@ def findChromosome(start_pos,names,thresholdDict):
     print("Finding which chromosome this read is from...")
         
     while chromFound == False: ##something is going wrong here 
-        for i in range(0,len(names)):
+        i=-1
+        while i < len(names):
+            i+=1
             chromName = str(names[i])
             print("testing:")
             print chromName
@@ -24,4 +26,6 @@ def findChromosome(start_pos,names,thresholdDict):
                     if chromFound == True:
                         print("Chrom found!")
                     break
+        if chromFound == False:
+            sys.exit(2)
     return selected_chrom

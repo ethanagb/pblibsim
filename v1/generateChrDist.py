@@ -2,28 +2,9 @@ import numpy as np
 import sys, getopt
 import os 
 
-def GenerateChrDist(argv):
+def GenerateChrDist(names):
     #Get the list of chromosome names from command line 
-    infileName=''
-    try:
-        opts, args = getopt.getopt(argv,"hi:",["infile="])
-    except getopt.GetoptError:
-        print("Usage: python generate_chrdist.py --infile /path/to/infile")
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt == '-h':
-            print("Usage: python generate_chrdist.py --infile </path/to/infile>")
-            sys.exit()
-        elif opt in ("-i","--infile"):
-            infileName = arg
-
-    #Open the file of chromosome names
-    with open(infileName,'r') as infile:
-        lines = infile.readlines()
-        names =[str(e.strip()) for e in lines]
-    infile.close()
-
-    with open('chrdist.td','w+') as outfile2:
+    with open('SiLiCO_Scratch/chrdist.td','w+') as outfile2:
         for chrom in names:
             #Strip header lines from fasta for processing
             with open(str(chrom) + '.fa','r') as infile, open(str(chrom) + '.noheader.fa','w+') as outfile:
@@ -34,8 +15,8 @@ def GenerateChrDist(argv):
             infile.close()
             outfile.close()  
             #Remove any newline chars, remove undefined nts, make all nts uppercase for processing. 
-            with open(str(chrom) + '.noheader.fa','r') as infile, \
-            open(str(chrom) + '.clean.fa','w+') as outfile:
+            with open("SiLiCO_Scratch/" + str(chrom) + '.noheader.fa','r') as infile, \
+            open("SiLiCO_Scratch/" + str(chrom) + '.clean.fa','w+') as outfile:
                 lines = infile.readlines()
                 x = map(str.strip,lines)
                 seq = ''
@@ -51,8 +32,8 @@ def GenerateChrDist(argv):
     outfile2.close()
 
     for chrom in names:
-        os.remove(str(chrom) + '.noheader.fa')
-        os.remove(str(chrom) + '.clean.fa')
+        os.remove("SiLiCO_Scratch/" + str(chrom) + '.noheader.fa')
+        os.remove("SiLiCO_Scratch/" + str(chrom) + '.clean.fa')
 
 if __name__ == "__main__":    
     GenerateChrDist(sys.argv[1:])

@@ -39,7 +39,7 @@ def simulateReads(argv):
     print("SiLiCO will simulate sequencing results with the following paramters:" + '\n' + "Mean Read Length = " + str(mean) + '\n' + "Standard Deviation of Read Length = " + str(std) + '\n' + 'Coverage = ' + str(desired_cov) + '\n')
     #generate chrdist.td file
     
-    with open('chrdist.td','r') as infile:
+    with open("SiLiCO_Scratch/chrdist.td",'r') as infile:
         lengths = []
         names = []
         for x in infile:

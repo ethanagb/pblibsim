@@ -2,8 +2,7 @@ def findChromosome(start_pos,names,thresholdDict):
     #Figure out which chromosome this is in
     chromFound = False
     print("Finding which chromosome this read is from...")
-        
-    while chromFound == False: ##something is going wrong here 
+    while chromFound == False: 
         i=-1
         while i < len(names):
             i+=1
@@ -27,6 +26,6 @@ def findChromosome(start_pos,names,thresholdDict):
                     if chromFound == True:
                         print("Chrom found!")
                     break
-        if chromFound == False:
+        if chromFound == False: ##can be deleted.
             sys.exit(2)
     return selected_chrom

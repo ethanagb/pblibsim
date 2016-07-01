@@ -63,7 +63,7 @@ def simulateReads(infileName,outfileName,mean,std,desired_cov,trialCount,names):
     
     trial_counter=0
     #trials = trialCount
-    while trial_counter < trialCount:
+    while trial_counter < int(trialCount):
         print("This is trial " + str(trial_counter))
         read_length_counter = 0
         read_pos_counter = 0
@@ -108,7 +108,6 @@ def simulateReads(infileName,outfileName,mean,std,desired_cov,trialCount,names):
             selected_chrom=None
             start_pos=None
             end_pos=None
-
         outfile.close()
         trial_counter+=1
 

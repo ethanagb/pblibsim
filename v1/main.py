@@ -45,13 +45,13 @@ def main(argv):
 		elif opt in ("-o","--outfile"):
 			outfileName = arg
 		elif opt in ("-m", "--mean_read_length"):
-			mean = arg
+			mean = int(arg)
 		elif opt in ("-s", "--standard_dev"):
-			std = arg
+			std = int(arg)
 		elif opt in ("-c", "--coverage"):
-			desired_cov = arg
+			desired_cov = int(arg)
 		elif opt in ("-t", "--trials"):
-			trialCount = arg
+			trialCount = int(arg)
 
 	#Split the input genome to chromosomal fasta files and return the sorted list of chromosome names.
 	names = splitGenomeFasta(infileName)

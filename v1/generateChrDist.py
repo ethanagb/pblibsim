@@ -1,5 +1,5 @@
 import numpy as np
-import sys, getopt
+import sys
 import os 
 
 def GenerateChrDist(names):
@@ -31,9 +31,10 @@ def GenerateChrDist(names):
             outfile.close()
     outfile2.close()
 
+    #Remove all temporary files from the scratch dir
     for chrom in names:
         os.remove("SiLiCO_Scratch/" + str(chrom) + '.noheader.fa')
         os.remove("SiLiCO_Scratch/" + str(chrom) + '.clean.fa')
 
 if __name__ == "__main__":    
-    GenerateChrDist(sys.argv[1:])
+    GenerateChrDist(names)

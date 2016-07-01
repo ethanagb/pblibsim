@@ -5,8 +5,16 @@ from natsort import natsorted
 def splitGenomeFasta(genome):
 	origFile = False
 	#Make the Silico working directory
-	os.mkdir("SiLiCO_Scratch")
-
+	try:
+		os.mkdir("SiLiCO_Scratch")
+	except OSError:
+		print("The Scratch dir already exists. Cleaning up...")
+		#shutil.rmtree("SiLiCO_Scratch", ignore_errors=True)
+		for f in glob.glob("SiLiCO_Scratch/*"):
+			os.remove(f)
+        #os.remove("SiLiCo_Scratch")
+        #os.mkdir("SiLiCO_Scratch")
+        #pass
 	#Read the genome file, set the header lines as names
 	for l in open(str(genome),'r'):
 		if l.startswith(">"):
@@ -24,6 +32,8 @@ def splitGenomeFasta(genome):
 	#Make a name list array and return it for use in subsequent steps.
 	fastaNames = natsorted(glob.glob("SiLiCO_Scratch/chr*.fa")) 
 	fastaNames = [str(x.split('.')[-2]) for x in fastaNames] #Only add the chrN portion of the name
+	fastaNames = [str(x.split('/')[1]) for x in fastaNames]
+	print fastaNames
 	return fastaNames
 
 if __name__ == "__main__":    

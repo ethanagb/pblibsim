@@ -2,12 +2,12 @@ import numpy as np
 import sys
 import os 
 
-def GenerateChrDist(names):
+def generateChrDist(names):
     #Get the list of chromosome names from command line 
     with open('SiLiCO_Scratch/chrdist.td','w+') as outfile2:
         for chrom in names:
             #Strip header lines from fasta for processing
-            with open(str(chrom) + '.fa','r') as infile, open(str(chrom) + '.noheader.fa','w+') as outfile:
+            with open("SiLiCO_Scratch/" + str(chrom) + '.fa','r') as infile, open("SiLiCO_Scratch/" + str(chrom) + '.noheader.fa','w+') as outfile:
                 for i, line in enumerate(infile):
                     if i >= 0:
                         if not line.startswith('>'):
@@ -37,4 +37,4 @@ def GenerateChrDist(names):
         os.remove("SiLiCO_Scratch/" + str(chrom) + '.clean.fa')
 
 if __name__ == "__main__":    
-    GenerateChrDist(names)
+    generateChrDist(names)

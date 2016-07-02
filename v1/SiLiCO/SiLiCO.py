@@ -31,7 +31,7 @@ def main(argv):
 		opts, args = getopt.getopt(argv,"i:o:m:s:c:tfh",["genome=","outdir=","mean_read_length=","standard_dev=", "coverage=","trials=","help","fasta","version","contact","citation"])
 	except getopt.GetoptError:
 		print("\n#############################################################################\n## SiLiCO: Simulator of Long Read Sequencing in PacBio and Oxford Nanopore ##\n#############################################################################")
-		print("\nUsage: python simulation.py -i </path/to/genome> -o </path/to/outfile.bed> -m <mean read length> -s <standard dev of read lengths> -c <coverage> -t <trials> [-f] \n")
+		print("\nUsage: python SiLiCO.py -i </path/to/genome> -o </path/to/outDir> -m <mean read length> -s <standard dev of read lengths> -c <coverage> -t <trials> [-f] \n")
 		print("\n" + "[ FILE I/O ]\n")
 		print("-i, --infile=<str>, REQ" + '\t\t\t' + "Input genome fasta file. See README for formatting requirments.")
 		print("-o, --output=<str>, OPT" + '\t\t\t' + "Output directory for results. Default = Current directory")
@@ -52,7 +52,7 @@ def main(argv):
 	for opt, arg in opts:
 		if opt in ('-h',"--help"):
 			print("\n#############################################################################\n## SiLiCO: Simulator of Long Read Sequencing in PacBio and Oxford Nanopore ##\n#############################################################################")
-			print("\nUsage: python simulation.py -i </path/to/genome> -o </path/to/outfile.bed> -m <mean read length> -s <standard dev of read lengths> -c <coverage> -t <trials> [-f] \n")
+			print("\nUsage: python SiLiCO.py -i </path/to/genome> -o </path/to/outDir> -m <mean read length> -s <standard dev of read lengths> -c <coverage> -t <trials> [-f] \n")
 			print("\n" + "[ FILE I/O ]\n")
 			print("-i, --infile=<str>, REQ" + '\t\t\t' + "Input genome fasta file. See README for formatting requirments.")
 			print("-o, --output=<str>, OPT" + '\t\t\t' + "Output directory for results. Default = Current directory")

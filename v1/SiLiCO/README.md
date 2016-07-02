@@ -10,7 +10,7 @@
 ---
 
 ```
-python SiLiCO.py -i </path/to/genome> [-o </path/to/outfile.bed> -m <mean read length> -s <standard dev of read lengths> -c <coverage> -t <trials> -f]
+python SiLiCO.py -i </path/to/genome> [-o </path/to/outDir> -m <mean read length> -s <standard dev of read lengths> -c <coverage> -t <trials> -f]
 
 [ FILE I/O ]
 

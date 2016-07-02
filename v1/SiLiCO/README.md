@@ -22,7 +22,7 @@ python SiLiCO.py -i </path/to/genome> [-o </path/to/outDir> -m <mean read length
 -m, --mean_read_length=<int>, OPT	Mean read length for in-silico read generation. Default = 10000 bp
 -s, --standard_dev=<int>, OPT		Standard deviation of in-silico reads. Default = 2050
 -c, --coverage=<int>, OPT		Desired genome coverage of in-silico sequencing. Default = 8
--t, --trials=<int>, OPT			Number of trials. Default = 1 
+--trials=<int>, OPT			Number of trials. Default = 1 
 
 [ MODES ] 
 

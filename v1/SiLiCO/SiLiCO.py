@@ -28,7 +28,7 @@ def main(argv):
 	#PARSE ARGUMENTS#
 	#################
 	try:
-		opts, args = getopt.getopt(argv,"i:o:m:s:c:tfh",["genome=","outdir=","mean_read_length=","standard_dev=", "coverage=","trials=","help","fasta","version","contact","citation"])
+		opts, args = getopt.getopt(argv,"i:o:m:s:c:fh",["genome=","outdir=","mean_read_length=","standard_dev=", "coverage=","trials=","help","fasta","version","contact","citation"])
 	except getopt.GetoptError:
 		print("\n#############################################################################\n## SiLiCO: Simulator of Long Read Sequencing in PacBio and Oxford Nanopore ##\n#############################################################################")
 		print("\nUsage: python SiLiCO.py -i </path/to/genome> -o </path/to/outDir> -m <mean read length> -s <standard dev of read lengths> -c <coverage> -t <trials> [-f] \n")
@@ -39,7 +39,7 @@ def main(argv):
 		print("-m, --mean_read_length=<int>, OPT" + '\t' + "Mean read length for in-silico read generation. Default = 10000 bp")
 		print("-s, --standard_dev=<int>, OPT" + '\t\t' + "Standard deviation of in-silico reads. Default = 2050")
 		print("-c, --coverage=<int>, OPT" + '\t\t' + "Desired genome coverage of in-silico sequencing. Default = 8")
-		print("-t, --trials=<int>, OPT" + '\t\t\t' + "Number of trials. Default = 1 \n")
+		print("--trials=<int>, OPT" + '\t\t\t' + "Number of trials. Default = 1 \n")
 		print("[ MODES ] \n")
 		print("-f, --fasta, OPT \t\t\tFASTA Mode. When present, converts bed files to Fasta sequences using the provided reference genome.")
 		print("\n[ DOCUMENTATION ] \n")
@@ -60,7 +60,7 @@ def main(argv):
 			print("-m, --mean_read_length=<int>, OPT" + '\t' + "Mean read length for in-silico read generation. Default = 10000 bp")
 			print("-s, --standard_dev=<int>, OPT" + '\t\t' + "Standard deviation of in-silico reads. Default = 2050")
 			print("-c, --coverage=<int>, OPT" + '\t\t' + "Desired genome coverage of in-silico sequencing. Default = 8")
-			print("-t, --trials=<int>, OPT" + '\t\t\t' + "Number of trials. Default = 1 \n")
+			print("--trials=<int>, OPT" + '\t\t\t' + "Number of trials. Default = 1 \n")
 			print("[ MODES ] \n")
 			print("-f, --fasta, OPT \t\t\tFASTA Mode. When present, converts bed files to Fasta sequences using the provided reference genome.")
 			print("\n[ DOCUMENTATION ] \n")

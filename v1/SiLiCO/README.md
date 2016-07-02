@@ -1,9 +1,6 @@
 
-# SiLiCO: Simulator of Long Read Sequencing in PacBio and Oxford Nanopore 
+#SiLiCO: Simulator of Long Read Sequencing in PacBio and Oxford Nanopore 
 
-### Usage Instructions
-
-`python SiLiCO.py -i </path/to/genome> [-o </path/to/outfile.bed> -m <mean read length> -s <standard dev of read lengths> -c <coverage> -t <trials> -f]`
 ---
 
 ###Installation
@@ -13,6 +10,8 @@
 ---
 
 ```
+python SiLiCO.py -i </path/to/genome> [-o </path/to/outfile.bed> -m <mean read length> -s <standard dev of read lengths> -c <coverage> -t <trials> -f]
+
 [ FILE I/O ]
 
 -i, --infile=<str>, REQ			Input genome fasta file. See README for formatting requirments**.
@@ -38,9 +37,10 @@
 ```
 ---
 ###Formatting Requirements
+---
 
 Input genome fasta should ideally be a chromosomal assembly with header lines in the style >chr1, >chr2.
----
+
 
 ###About SiLiCO
 

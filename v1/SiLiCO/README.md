@@ -26,7 +26,7 @@ python SiLiCO.py -i </path/to/genome> [-o </path/to/outDir> -m <mean read length
 
 [ MODES ] 
 
--f, --fasta, OPT 			FASTA Mode. When present, converts bed files to Fasta sequences using the provided reference genome.
+-f, --fasta, OPT 			FASTA Mode. When present, converts bed files to FASTA sequences using the provided reference genome.
 
 [ DOCUMENTATION ] 
 

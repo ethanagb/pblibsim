@@ -96,7 +96,7 @@ def main(argv):
 			print("\nSiLiCO v. 1.0.0")
 			sys.exit(2)
 		elif opt == "--contact":
-			print("\nReport bugs on the GitHub repo: \nhttps://www.github.com/ethanagbaker/pblibsim")
+			print("\nReport bugs on the GitHub repo: \nhttps://www.github.com/ethanagbaker/silico")
 			sys.exit(2)
 		elif opt == "--citation":
 			print("\nIf you use SiLiCO in your research please cite it as follows: \n")

@@ -15,7 +15,6 @@ def findChromosome(start_pos,names,thresholdDict):
 			
 			if i-1 >= 0:
 				prevChromName = str(names[i-1])
-				print "PREV CHROM:", prevChromName
 				if thresholdDict[prevChromName] < start_pos <= thresholdDict[chromName]:
 					selected_chrom = chromName
 					chromFound = True

@@ -43,7 +43,6 @@ def simulateReads(infileName,outfileName,mean,std,desired_cov,trialCount,names):
 	print("Building threshold dictionaries...")
 	for chrom in range(0,len(names)): #might have to change this because it will change chrX to chr24 (build an array of names and use an index)
 		name = str(names[chrom])#this name will go as key in dict
-		print name
 		if name =="chr1":
 			thresholdDict[name]=lengthDict[name]
 			#correctionDict["chr1"]=0

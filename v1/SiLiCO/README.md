@@ -46,11 +46,12 @@ python SiLiCO.py -i </path/to/genome> [-o </path/to/outDir> -m <mean read length
 ---
 ###Formatting Requirements
 
+---
 Input genome fasta should ideally be a chromosomal assembly with header lines in the style >chr1, >chr2.
 
----
 
 ###About SiLiCO
+---
 
 If you use SiLiCO in your research please cite it as follows: 
 
@@ -62,6 +63,8 @@ SiLiCO is made freely available under the GNU GPL 3.0 license.
 This software may be freely modified and (re)distributed, but you must make your modifications freely available and cite SiLiCO.
 
 View LICENSE.txt or [http://choosealicense.com/licenses/gpl-3.0/](http://choosealicense.com/licenses/gpl-3.0/) for more information.
+
+---
 
 (c) Ethan Alexander García Baker 2016
 

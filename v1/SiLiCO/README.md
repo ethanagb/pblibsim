@@ -60,6 +60,11 @@ If you use SiLiCO in your research please cite it as follows:
 
 SiLiCO is made freely available under the GNU GPL 3.0 license.
 This software may be freely modified and (re)distributed, but you must make your modifications freely available and cite SiLiCO.
+
 View LICENSE.txt or [http://choosealicense.com/licenses/gpl-3.0/](http://choosealicense.com/licenses/gpl-3.0/) for more information.
 
-(c) 2016
+(c) Ethan Alexander García Baker 2016
+
+![cshl_logo](https://www.cshl.edu/images/stories/about_us/logos/cshllogo_standard_RGB.png | width = 259) 
+
+![pitt_logo](http://www.communications.pitt.edu/images/shared/pitt.gif)

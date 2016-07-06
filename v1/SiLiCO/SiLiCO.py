@@ -23,12 +23,14 @@ def main(argv):
 	desired_cov = 8 
 	trialCount = 1
 	FASTA_MODE = False
+	SEQ_MODE = 1 #1=PacBio, 2=Nanopore
+	SEQ_MODES_CALLED = 0
 
 	#################
 	#PARSE ARGUMENTS#
 	#################
 	try:
-		opts, args = getopt.getopt(argv,"i:o:m:s:c:fh",["genome=","outdir=","mean_read_length=","standard_dev=", "coverage=","trials=","help","fasta","version","contact","citation"])
+		opts, args = getopt.getopt(argv,"i:o:m:s:c:fhpn",["genome=","outdir=","mean_read_length=","standard_dev=", "coverage=","trials=","help","fasta","version","contact","citation","pacbio","nanopore"])
 	except getopt.GetoptError:
 		print("\n#############################################################################\n## SiLiCO: Simulator of Long Read Sequencing in PacBio and Oxford Nanopore ##\n#############################################################################")
 		print("\nUsage: python SiLiCO.py -i </path/to/genome> -o </path/to/outDir> -m <mean read length> -s <standard dev of read lengths> -c <coverage> -t <trials> [-f] \n")
@@ -42,6 +44,8 @@ def main(argv):
 		print("--trials=<int>, OPT" + '\t\t\t' + "Number of trials. Default = 1 \n")
 		print("[ MODES ] \n")
 		print("-f, --fasta, OPT \t\t\tFASTA Mode. When present, converts bed files to FASTA sequences using the provided reference genome.")
+		print("-n, --nanopore, \t\t\t Generate Oxford Nanopore data. Calculates a gamma distribution.")
+		print("-p, --pacbio, \t\t\t Generate PacBio data. Calculates a log normal distribution. Default mode if none specified.")
 		print("\n[ DOCUMENTATION ] \n")
 		print("-h, --help" + '\t\t\t\t' + "Display this message.")
 		print("--version" + '\t\t\t\t' + "What version of SiLiCO are you using?")
@@ -63,6 +67,8 @@ def main(argv):
 			print("--trials=<int>, OPT" + '\t\t\t' + "Number of trials. Default = 1 \n")
 			print("[ MODES ] \n")
 			print("-f, --fasta, OPT \t\t\tFASTA Mode. When present, converts bed files to FASTA sequences using the provided reference genome.")
+			print("-n, --nanopore, \t\t\t Generate Oxford Nanopore data. Calculates a gamma distribution.")
+			print("-p, --pacbio, \t\t\t Generate PacBio data. Calculates a log normal distribution. Default mode if none specified.")
 			print("\n[ DOCUMENTATION ] \n")
 			print("-h, --help" + '\t\t\t\t' + "Display this message.")
 			print("--version" + '\t\t\t\t' + "What version of SiLiCO are you using?")
@@ -92,11 +98,17 @@ def main(argv):
 			trialCount = int(arg)
 		elif opt in ("-f", "--fasta"):
 			FASTA_MODE = True
+		elif opt in ("-p", "--pacbio"):
+			SEQ_MODE = 1
+			SEQ_MODES_CALLED += 1
+		elif opt in ("-n", "--nanopore"):
+			SEQ_MODE = 2
+			SEQ_MODES_CALLED += 1
 		elif opt == "--version":
 			print("\nSiLiCO v. 1.0.0")
 			sys.exit(2)
 		elif opt == "--contact":
-			print("\nReport bugs on the GitHub repo: \nhttps://www.github.com/ethanagbaker/silico")
+			print("\nReport bugs on the GitHub repo: \nhttps://www.github.com/ethanagbaker/SiLiCO")
 			sys.exit(2)
 		elif opt == "--citation":
 			print("\nIf you use SiLiCO in your research please cite it as follows: \n")
@@ -110,6 +122,12 @@ def main(argv):
 	######################
 	#Execute SiLiCO steps#
 	######################
+
+	#Ensure that only one sequence mode has been specified
+	if SEQ_MODES_CALLED > 1:
+		except Exception:
+			print("Error: You have specified both PacBio and Oxford Nanopore modes. Select exactly one. Omitting sequencing mode parameter will run SiLiCO in PacBio mode.")
+			sys.exit(2)
 
 	#Split the input genome to chromosomal fasta files and return the sorted list of chromosome names.
 	print("Preparing the genome file.")
@@ -127,9 +145,13 @@ def main(argv):
 	print("Done!")
 
 	#Generate simulated reads
-	print("Generating simulated reads...")
-	simulateReads(infileName,outfileName,mean,std,desired_cov,trialCount,names)
+	if SEQ_MODE == 1:
+		print("Generating simulated reads in PacBio mode...")
+	elif SEQ_MODE == 2:
+		print("Generating simulated reads in Oxford Nanopore mode...")
+	simulateReads(infileName,outfileName,mean,std,desired_cov,trialCount,names, SEQ_MODE)
 	print("Done!")
+	
 	#If -f/--fasta flag is found, convert to fasta file using the reference genome.
 	if FASTA_MODE == True:
 		print("Converting simulated BED files to FASTA files...")

@@ -33,6 +33,8 @@ python SiLiCO.py -i </path/to/genome> [-o </path/to/outDir> -m <mean read length
 [ MODES ] 
 
 -f, --fasta, OPT 			FASTA Mode. When present, converts bed files to FASTA sequences using the provided reference genome.
+-n, --nanopore, OPT 		Generate Oxford Nanopore data. Calculates a gamma distribution.
+-p, --pacbio, OPT 			Generate PacBio data. Calculates a log normal distribution. Default mode if none specified.
 
 [ DOCUMENTATION ] 
 

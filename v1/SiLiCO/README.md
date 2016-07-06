@@ -65,4 +65,6 @@ View LICENSE.txt or [http://choosealicense.com/licenses/gpl-3.0/](http://choosea
 
 (c) Ethan Alexander García Baker 2016
 
-<img src="https://www.cshl.edu/images/stories/about_us/logos/cshllogo_standard_RGB.png" alt="cshl logo" width="259"> ![pitt_logo](http://www.communications.pitt.edu/images/shared/pitt.gif)
+<img src="https://www.cshl.edu/images/stories/about_us/logos/cshllogo_standard_RGB.png" alt="cshl logo" width="259"> 
+
+![pitt_logo](http://www.communications.pitt.edu/images/shared/pitt.gif)

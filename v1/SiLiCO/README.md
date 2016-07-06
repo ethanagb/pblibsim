@@ -45,10 +45,10 @@ python SiLiCO.py -i </path/to/genome> [-o </path/to/outDir> -m <mean read length
 ```
 ---
 ###Formatting Requirements
----
 
 Input genome fasta should ideally be a chromosomal assembly with header lines in the style >chr1, >chr2.
 
+---
 
 ###About SiLiCO
 

@@ -86,8 +86,8 @@ def simulateReads(infileName,outfileName,mean,std,desired_cov,trialCount,names,s
 
 				start_pos = int(y-buf)
 				end_pos = int(y+buf)
-				print("start = " + str(start_pos))
-				print("end = " + str(end_pos))
+				#print("start = " + str(start_pos))
+				#print("end = " + str(end_pos))
 				
 				#Figure out which chromosome this is in
 				selected_chrom = findChromosome(start_pos,names,thresholdDict)
@@ -110,9 +110,9 @@ def simulateReads(infileName,outfileName,mean,std,desired_cov,trialCount,names,s
 				selected_chrom=None
 				start_pos=None
 				end_pos=None
-		outfile.close()
-		trial_counter+=1
-		print("Completed trial " + str(trial_counter) + " of " + str(trialCount) + ". ("+ str(100*(float(trial_counter)/trialCount)) + "%)")
+			outfile.close()
+			trial_counter+=1
+			print("Completed trial " + str(trial_counter) + " of " + str(trialCount) + ". ("+ str(100*(float(trial_counter)/trialCount)) + "%)")
 	
 	elif seqMode == 2: #PacBio/LogNormal
 		scale = float(std)/mean
@@ -138,8 +138,8 @@ def simulateReads(infileName,outfileName,mean,std,desired_cov,trialCount,names,s
 
 				start_pos = int(y-buf)
 				end_pos = int(y+buf)
-				print("start = " + str(start_pos))
-				print("end = " + str(end_pos))
+				#print("start = " + str(start_pos))
+				#print("end = " + str(end_pos))
 				
 				#Figure out which chromosome this is in
 				selected_chrom = findChromosome(start_pos,names,thresholdDict)
@@ -162,9 +162,9 @@ def simulateReads(infileName,outfileName,mean,std,desired_cov,trialCount,names,s
 				selected_chrom=None
 				start_pos=None
 				end_pos=None
-		outfile.close()
-		trial_counter+=1
-		print("Completed trial " + str(trial_counter) + " of " + str(trialCount) + ". ("+ str(100*(float(trial_counter)/trialCount)) + "%)")
+			outfile.close()
+			trial_counter+=1
+			print("Completed trial " + str(trial_counter) + " of " + str(trialCount) + ". ("+ str(100*(float(trial_counter)/trialCount)) + "%)")
 	
 	
 

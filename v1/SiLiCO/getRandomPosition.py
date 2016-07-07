@@ -10,7 +10,7 @@ def getRandomPosition(buf,genomeLength, thresholdDict,names):
     loopController = True
     while loopController == True:
         y = np.random.randint(buf, genomeLength-buf)
-        print("y = " + str(y))
+        #print("y = " + str(y))
 
         #generate a name variable, check regions until something is satisfied...
 

@@ -120,9 +120,9 @@ def simulateReads(infileName,outfileName,mean,std,desired_cov,trialCount,names,s
 		req_reads = int((int(desired_cov)*genomeLength)/float(mean))
 		
 		#Begin generating in-silico reads
-		trial_counter = 0
-		while trial_counter < int(trialCount):
-			print("This is trial " + str(trial_counter))
+		trial_counter = 1
+		while trial_counter <= int(trialCount):
+			#print("This is trial " + str(trial_counter))
 			read_length_counter = 0
 			read_pos_counter = 0
 			readlengths = None

@@ -80,7 +80,7 @@ View LICENSE.txt or [http://choosealicense.com/licenses/gpl-3.0/](http://choosea
 
 ---
 
-(c) Ethan Alexander García Baker 2016
+(c) 2016 Ethan Alexander García Baker
 
 <img src="https://www.cshl.edu/images/stories/about_us/logos/cshllogo_standard_RGB.png" alt="cshl logo" width="259"> 
 

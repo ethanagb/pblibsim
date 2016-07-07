@@ -16,6 +16,6 @@ setup(name='SiLiCO',
       license='GNU',
       packages=setuptools.find_packages(),
       py_modules=['simulateReads','convertToFasta','generateChrDist','splitGenomeFasta','getRandomPosition','findChromosome', 'SiLiCO'],
-      classifiers=['Programming Language :: Python :: 2.7.11',  'Programming Language :: Python :: 3.4','License :: OSI Approved :: GNU GPL'],
+      classifiers=['Programming Language :: Python :: 2.7.11',  'Programming Language :: Python :: 3.5','License :: OSI Approved :: GNU GPL'],
       install_requires=['numpy', 'natsort','pybedtools','pysam==0.8.4']
      )

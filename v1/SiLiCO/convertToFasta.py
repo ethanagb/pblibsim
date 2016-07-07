@@ -4,13 +4,11 @@
 ##### ethanagbaker@pitt.edu #####
 #################################
 
-import getopt, multiprocessing, glob
+import getopt, glob
 import pybedtools
 
 #Converts simulated BED files to FASTA sequences from the genome
 #Only runs if the --fasta/-f option is specified.
-
-threads = multiprocessing.cpu_count() #default
 
 def convertToFasta(genomeFile,outDir):
 	bedfileslist = glob.glob(str(outDir) +"/" + "*.bed.gz")

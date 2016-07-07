@@ -1,7 +1,6 @@
 
 #SiLiCO: Simulator of Long Read Sequencing in PacBio and Oxford Nanopore 
 
----
 
 ###Installation
 ---

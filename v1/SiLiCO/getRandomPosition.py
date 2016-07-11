@@ -6,12 +6,11 @@
 
 import numpy as np
 
-def getRandomPosition(buf,genomeLength, thresholdDict,names):
+def getRandomPosition(buf,genomeLength, thresholdDict,names,lengthDict):
     loopController = True
     while loopController == True:
         y = np.random.randint(buf, genomeLength-buf)
-        #print("y = " + str(y))
-
+       
         #generate a name variable, check regions until something is satisfied...
 
         for chrom in thresholdDict:
@@ -19,9 +18,9 @@ def getRandomPosition(buf,genomeLength, thresholdDict,names):
             if chrom == 'chr1':
                 t=0
             else:
-                t=thresholdDict[chrom]
-                r=thresholdDict[names[k]]
-            if t+buf <= y <= t-buf or t+buf <= y <= t-buf:
+                t=thresholdDict[chrom]-lengthDict[chrom]
+                r=thresholdDict[chrom]
+            if t+buf <= y <= r-buf:
                 loopController = False
                 break
             k += 1

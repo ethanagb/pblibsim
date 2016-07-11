@@ -6,7 +6,7 @@
 ---
 If you've downloaded the source code, unpack SiLiCO, build, and install it.
 
-+ `tar -xvzf tar -xvzf SiLiCO-1.0.0.tar.gz`
++ `tar -xvzf SiLiCO-1.0.0.tar.gz`
 + `cd SiLiCO-1.0.0`
 + `python setup.py build`
 + `python setup.py install`
